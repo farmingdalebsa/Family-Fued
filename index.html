@@ -1,445 +1,382 @@
-import React, { useMemo, useState } from "react";
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BSA Family Feud Night</title>
+    <!-- Tailwind via CDN (good for quick hosting on GitHub Pages) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React 18 UMD + Babel (so we can write JSX in-browser) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body class="min-h-screen bg-emerald-950">
+    <div id="root"></div>
 
-// BSA Family Feud Night – single-file React component
-// Tailored styling for Bangladeshi Student Association (green/red theme)
-// Changes from base:
-// • The question stays hidden behind a big "Tap to reveal" card until the first click each round
-// • 10 BSA-themed sample questions added
-// • Header/branding updated; default team names localized
+    <!-- Your game component (JSX). Paste updated versions here in the future. -->
+    <script type="text/babel" data-presets="react">
+      const { useMemo, useState, useEffect } = React;
 
-const SAMPLE_QUESTIONS = [
-  {
-    prompt: "Name a popular Bangladeshi street food",
-    answers: [
-      { text: "Fuchka/Pani Puri", points: 30 },
-      { text: "Chotpoti", points: 18 },
-      { text: "Jhalmuri", points: 15 },
-      { text: "Singara/Samosa", points: 12 },
-      { text: "Roll/Paratha roll", points: 10 },
-      { text: "Pitha (seasonal)", points: 8 },
-      { text: "Haleem", points: 7 },
-    ],
-  },
-  {
-    prompt: "Name a city you’d recommend visiting in Bangladesh",
-    answers: [
-      { text: "Cox’s Bazar", points: 24 },
-      { text: "Dhaka", points: 22 },
-      { text: "Sylhet", points: 18 },
-      { text: "Chattogram", points: 14 },
-      { text: "Sundarbans (Khulna)", points: 10 },
-      { text: "Srimangal", points: 7 },
-      { text: "Rangamati/Bandarban", points: 5 },
-    ],
-  },
-  {
-    prompt: "Something students bring to a BSA meeting",
-    answers: [
-      { text: "Snacks/food to share", points: 22 },
-      { text: "Water bottle", points: 18 },
-      { text: "Laptop/tablet", points: 16 },
-      { text: "Phone charger", points: 15 },
-      { text: "ID card", points: 12 },
-      { text: "Pen & notebook", points: 10 },
-      { text: "Cash/Venmo for dues", points: 7 },
-    ],
-  },
-  {
-    prompt: "A popular activity at BSA cultural nights",
-    answers: [
-      { text: "Cultural dance", points: 22 },
-      { text: "Henna/Mehndi", points: 18 },
-      { text: "Live music/singing", points: 16 },
-      { text: "Trivia/quiz games", points: 14 },
-      { text: "Food tasting", points: 14 },
-      { text: "Photo booth", points: 8 },
-      { text: "Party games", points: 8 },
-    ],
-  },
-  {
-    prompt: "Exam week essential for college students",
-    answers: [
-      { text: "Tea/Coffee", points: 28 },
-      { text: "Instant noodles", points: 18 },
-      { text: "Earbuds", points: 14 },
-      { text: "Highlighters", points: 12 },
-      { text: "Flashcards/Anki", points: 10 },
-      { text: "Energy drink", points: 10 },
-      { text: "Hoodie/blanket", points: 8 },
-    ],
-  },
-  {
-    prompt: "Famous Bangladeshi dishes",
-    answers: [
-      { text: "Kacchi biryani", points: 26 },
-      { text: "Ilish (Hilsa)", points: 20 },
-      { text: "Bhuna khichuri", points: 16 },
-      { text: "Panta ilish", points: 12 },
-      { text: "Tehari", points: 14 },
-      { text: "Fuchka", points: 12 },
-    ],
-  },
-  {
-    prompt: "Something you often hear at a deshi wedding",
-    answers: [
-      { text: "Dhol/drums", points: 22 },
-      { text: "Photo time!", points: 18 },
-      { text: "Ektu darao / Wait a second", points: 16 },
-      { text: "Compliments on outfits", points: 14 },
-      { text: "Ululation/cheers", points: 12 },
-      { text: "Kids running around", points: 10 },
-      { text: "Where’s the biryani?", points: 8 },
-    ],
-  },
-  {
-    prompt: "Most popular sports among Bangladeshi students",
-    answers: [
-      { text: "Cricket", points: 40 },
-      { text: "Football/Soccer", points: 25 },
-      { text: "Badminton", points: 15 },
-      { text: "Table tennis", points: 10 },
-      { text: "Basketball", points: 6 },
-      { text: "Volleyball", points: 4 },
-    ],
-  },
-  {
-    prompt: "Why a club meeting might start late",
-    answers: [
-      { text: "Free food line", points: 24 },
-      { text: "Class ran over", points: 22 },
-      { text: "Finding the room", points: 18 },
-      { text: "Tech/setup issues", points: 14 },
-      { text: "Weather/traffic", points: 12 },
-      { text: "Waiting for friends", points: 10 },
-    ],
-  },
-  {
-    prompt: "Festival BSA might celebrate on campus",
-    answers: [
-      { text: "Pohela Boishakh", points: 34 },
-      { text: "Eid", points: 20 },
-      { text: "Victory Day", points: 16 },
-      { text: "Language Movement Day", points: 14 },
-      { text: "Nabanno", points: 10 },
-      { text: "Independence Day", points: 6 },
-    ],
-  },
-];
+      const SAMPLE_QUESTIONS = [
+        { prompt: "Name a popular Bangladeshi street food", answers: [
+          { text: "Fuchka/Pani Puri", points: 30 },
+          { text: "Chotpoti", points: 18 },
+          { text: "Jhalmuri", points: 15 },
+          { text: "Singara/Samosa", points: 12 },
+          { text: "Roll/Paratha roll", points: 10 },
+          { text: "Pitha (seasonal)", points: 8 },
+          { text: "Haleem", points: 7 },
+        ]},
+        { prompt: "Name a city you’d recommend visiting in Bangladesh", answers: [
+          { text: "Cox’s Bazar", points: 24 },
+          { text: "Dhaka", points: 22 },
+          { text: "Sylhet", points: 18 },
+          { text: "Chattogram", points: 14 },
+          { text: "Sundarbans (Khulna)", points: 10 },
+          { text: "Srimangal", points: 7 },
+          { text: "Rangamati/Bandarban", points: 5 },
+        ]},
+        { prompt: "Something students bring to a BSA meeting", answers: [
+          { text: "Snacks/food to share", points: 22 },
+          { text: "Water bottle", points: 18 },
+          { text: "Laptop/tablet", points: 16 },
+          { text: "Phone charger", points: 15 },
+          { text: "ID card", points: 12 },
+          { text: "Pen & notebook", points: 10 },
+          { text: "Cash/Venmo for dues", points: 7 },
+        ]},
+        { prompt: "A popular activity at BSA cultural nights", answers: [
+          { text: "Cultural dance", points: 22 },
+          { text: "Henna/Mehndi", points: 18 },
+          { text: "Live music/singing", points: 16 },
+          { text: "Trivia/quiz games", points: 14 },
+          { text: "Food tasting", points: 14 },
+          { text: "Photo booth", points: 8 },
+          { text: "Party games", points: 8 },
+        ]},
+        { prompt: "Exam week essential for college students", answers: [
+          { text: "Tea/Coffee", points: 28 },
+          { text: "Instant noodles", points: 18 },
+          { text: "Earbuds", points: 14 },
+          { text: "Highlighters", points: 12 },
+          { text: "Flashcards/Anki", points: 10 },
+          { text: "Energy drink", points: 10 },
+          { text: "Hoodie/blanket", points: 8 },
+        ]},
+        { prompt: "Famous Bangladeshi dishes", answers: [
+          { text: "Kacchi biryani", points: 26 },
+          { text: "Ilish (Hilsa)", points: 20 },
+          { text: "Bhuna khichuri", points: 16 },
+          { text: "Panta ilish", points: 12 },
+          { text: "Tehari", points: 14 },
+          { text: "Fuchka", points: 12 },
+        ]},
+        { prompt: "Something you often hear at a deshi wedding", answers: [
+          { text: "Dhol/drums", points: 22 },
+          { text: "Photo time!", points: 18 },
+          { text: "Ektu darao / Wait a second", points: 16 },
+          { text: "Compliments on outfits", points: 14 },
+          { text: "Ululation/cheers", points: 12 },
+          { text: "Kids running around", points: 10 },
+          { text: "Where’s the biryani?", points: 8 },
+        ]},
+        { prompt: "Most popular sports among Bangladeshi students", answers: [
+          { text: "Cricket", points: 40 },
+          { text: "Football/Soccer", points: 25 },
+          { text: "Badminton", points: 15 },
+          { text: "Table tennis", points: 10 },
+          { text: "Basketball", points: 6 },
+          { text: "Volleyball", points: 4 },
+        ]},
+        { prompt: "Why a club meeting might start late", answers: [
+          { text: "Free food line", points: 24 },
+          { text: "Class ran over", points: 22 },
+          { text: "Finding the room", points: 18 },
+          { text: "Tech/setup issues", points: 14 },
+          { text: "Weather/traffic", points: 12 },
+          { text: "Waiting for friends", points: 10 },
+        ]},
+        { prompt: "Festival BSA might celebrate on campus", answers: [
+          { text: "Pohela Boishakh", points: 34 },
+          { text: "Eid", points: 20 },
+          { text: "Victory Day", points: 16 },
+          { text: "Language Movement Day", points: 14 },
+          { text: "Nabanno", points: 10 },
+          { text: "Independence Day", points: 6 },
+        ]},
+      ];
 
-export default function FamilyFeudLite() {
-  const [teamAName, setTeamAName] = useState("Team Padma");
-  const [teamBName, setTeamBName] = useState("Team Meghna");
-  const [scoreA, setScoreA] = useState(0);
-  const [scoreB, setScoreB] = useState(0);
+      function FamilyFeudLite() {
+        const [teamAName, setTeamAName] = useState("Team Padma");
+        const [teamBName, setTeamBName] = useState("Team Meghna");
+        const [scoreA, setScoreA] = useState(0);
+        const [scoreB, setScoreB] = useState(0);
 
-  const [questions, setQuestions] = useState(SAMPLE_QUESTIONS);
-  const [roundIndex, setRoundIndex] = useState(0);
-  const [revealed, setRevealed] = useState([]); // boolean array per round
-  const [strikes, setStrikes] = useState(0);
-  const [multiplier, setMultiplier] = useState(1); // 1,2,3
-  const [editingQuestions, setEditingQuestions] = useState(false);
-  const [jsonDraft, setJsonDraft] = useState(() => JSON.stringify(SAMPLE_QUESTIONS, null, 2));
-  const [questionHidden, setQuestionHidden] = useState(true); // NEW: hide prompt until first click
+        const [questions, setQuestions] = useState(SAMPLE_QUESTIONS);
+        const [roundIndex, setRoundIndex] = useState(0);
+        const [revealed, setRevealed] = useState([]);
+        const [strikes, setStrikes] = useState(0);
+        const [multiplier, setMultiplier] = useState(1);
+        const [editingQuestions, setEditingQuestions] = useState(false);
+        const [jsonDraft, setJsonDraft] = useState(() => JSON.stringify(SAMPLE_QUESTIONS, null, 2));
+        const [questionHidden, setQuestionHidden] = useState(true);
 
-  const current = questions[roundIndex];
+        const current = questions[roundIndex];
 
-  // Initialize per-round state
-  React.useEffect(() => {
-    if (!current) return;
-    setRevealed(new Array(current.answers.length).fill(false));
-    setStrikes(0);
-    setMultiplier(1);
-    setQuestionHidden(true); // hide at start of each round
-  }, [roundIndex, questions]);
+        useEffect(() => {
+          if (!current) return;
+          setRevealed(new Array(current.answers.length).fill(false));
+          setStrikes(0);
+          setMultiplier(1);
+          setQuestionHidden(true);
+        }, [roundIndex, questions]);
 
-  const revealedPoints = useMemo(() => {
-    if (!current) return 0;
-    return current.answers.reduce((sum, a, i) => sum + (revealed[i] ? a.points : 0), 0);
-  }, [current, revealed]);
+        const revealedPoints = useMemo(() => {
+          if (!current) return 0;
+          return current.answers.reduce((sum, a, i) => sum + (revealed[i] ? a.points : 0), 0);
+        }, [current, revealed]);
 
-  const totalPossible = useMemo(() => {
-    if (!current) return 0;
-    return current.answers.reduce((s, a) => s + a.points, 0);
-  }, [current]);
+        const totalPossible = useMemo(() => {
+          if (!current) return 0;
+          return current.answers.reduce((s, a) => s + a.points, 0);
+        }, [current]);
 
-  function handleReveal(i) {
-    if (questionHidden) return; // prevent revealing answers before question is shown
-    if (!revealed[i]) {
-      const next = [...revealed];
-      next[i] = true;
-      setRevealed(next);
-    }
-  }
-
-  function toggleRevealAll(state) {
-    if (!current) return;
-    if (state) setQuestionHidden(false); // revealing all should also reveal the prompt
-    setRevealed(new Array(current.answers.length).fill(state));
-  }
-
-  function nextMultiplier() {
-    setMultiplier((m) => (m === 1 ? 2 : m === 2 ? 3 : 1));
-  }
-
-  function addStrike() {
-    setStrikes((s) => Math.min(3, s + 1));
-  }
-
-  function clearStrikes() {
-    setStrikes(0);
-  }
-
-  function awardRound(to) {
-    const awarded = revealedPoints * multiplier;
-    if (to === "A") setScoreA((s) => s + awarded);
-    if (to === "B") setScoreB((s) => s + awarded);
-  }
-
-  function nextRound() {
-    if (roundIndex < questions.length - 1) {
-      setRoundIndex(roundIndex + 1);
-    } else {
-      // Loop back to first round
-      setRoundIndex(0);
-    }
-  }
-
-  function prevRound() {
-    if (roundIndex > 0) setRoundIndex(roundIndex - 1);
-  }
-
-  function resetGame(hard = false) {
-    setScoreA(0);
-    setScoreB(0);
-    setStrikes(0);
-    setMultiplier(1);
-    toggleRevealAll(false);
-    setQuestionHidden(true);
-    if (hard) setRoundIndex(0);
-  }
-
-  function applyQuestionsJSON() {
-    try {
-      const parsed = JSON.parse(jsonDraft);
-      if (!Array.isArray(parsed)) throw new Error("Root must be an array");
-      // Basic shape check
-      parsed.forEach((q, idx) => {
-        if (!q.prompt || !Array.isArray(q.answers)) {
-          throw new Error(`Item ${idx} must have prompt and answers[]`);
-        }
-        q.answers.forEach((a, j) => {
-          if (typeof a.text !== "string" || typeof a.points !== "number") {
-            throw new Error(`Answer ${j} in question ${idx} must have text:string and points:number`);
+        function handleReveal(i) {
+          if (questionHidden) return;
+          if (!revealed[i]) {
+            const next = [...revealed];
+            next[i] = true;
+            setRevealed(next);
           }
-        });
-      });
-      setQuestions(parsed);
-      setRoundIndex(0);
-      setEditingQuestions(false);
-    } catch (e) {
-      alert("Invalid JSON: " + e.message);
-    }
-  }
+        }
 
-  if (!current) {
-    return (
-      <div className="min-h-screen w-full bg-emerald-950 text-emerald-50 flex items-center justify-center p-6">
-        <div className="max-w-xl w-full text-center">
-          <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-red-600" />
-          <h1 className="text-3xl font-bold mb-2">BSA Family Feud Night</h1>
-          <p className="opacity-80">No questions loaded. Add some below.</p>
-          <button
-            className="mt-6 px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 transition"
-            onClick={() => setQuestions(SAMPLE_QUESTIONS)}
-          >
-            Load sample questions
-          </button>
-        </div>
-      </div>
-    );
-  }
+        function toggleRevealAll(state) {
+          if (!current) return;
+          if (state) setQuestionHidden(false);
+          setRevealed(new Array(current.answers.length).fill(state));
+        }
 
-  return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-emerald-50 p-4 md:p-8">
-      {/* Header & Scoreboard */}
-      <div className="max-w-6xl mx-auto space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-red-600 shadow-md" />
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">BSA Family Feud Night</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setEditingQuestions((v) => !v)}
-              className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700"
-            >
-              {editingQuestions ? "Close editor" : "Questions editor"}
-            </button>
-            <button
-              onClick={() => resetGame(true)}
-              className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700"
-            >
-              Reset game
-            </button>
-          </div>
-        </div>
+        function nextMultiplier() {
+          setMultiplier((m) => (m === 1 ? 2 : m === 2 ? 3 : 1));
+        }
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
-          {/* Team A */}
-          <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
-            <label className="text-xs uppercase tracking-wider opacity-70">Team A</label>
-            <input
-              value={teamAName}
-              onChange={(e) => setTeamAName(e.target.value)}
-              className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1"
-            />
-            <div className="mt-3 text-4xl font-bold tabular-nums">{scoreA}</div>
-          </div>
+        function addStrike() {
+          setStrikes((s) => Math.min(3, s + 1));
+        }
 
-          {/* Round status */}
-          <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div className="text-sm opacity-80">Round</div>
-              <div className="flex items-center gap-1">
-                <button onClick={prevRound} className="px-3 py-1 rounded-lg bg-emerald-800/60">◀</button>
-                <div className="px-3 py-1 rounded-lg bg-emerald-800/60 tabular-nums">{roundIndex + 1}/{questions.length}</div>
-                <button onClick={nextRound} className="px-3 py-1 rounded-lg bg-emerald-800/60">▶</button>
+        function clearStrikes() {
+          setStrikes(0);
+        }
+
+        function awardRound(to) {
+          const awarded = revealedPoints * multiplier;
+          if (to === "A") setScoreA((s) => s + awarded);
+          if (to === "B") setScoreB((s) => s + awarded);
+        }
+
+        function nextRound() {
+          if (roundIndex < questions.length - 1) setRoundIndex(roundIndex + 1);
+          else setRoundIndex(0);
+        }
+
+        function prevRound() {
+          if (roundIndex > 0) setRoundIndex(roundIndex - 1);
+        }
+
+        function resetGame(hard = false) {
+          setScoreA(0);
+          setScoreB(0);
+          setStrikes(0);
+          setMultiplier(1);
+          toggleRevealAll(false);
+          setQuestionHidden(true);
+          if (hard) setRoundIndex(0);
+        }
+
+        function applyQuestionsJSON() {
+          try {
+            const parsed = JSON.parse(jsonDraft);
+            if (!Array.isArray(parsed)) throw new Error("Root must be an array");
+            parsed.forEach((q, idx) => {
+              if (!q.prompt || !Array.isArray(q.answers)) {
+                throw new Error(`Item ${idx} must have prompt and answers[]`);
+              }
+              q.answers.forEach((a, j) => {
+                if (typeof a.text !== "string" || typeof a.points !== "number") {
+                  throw new Error(`Answer ${j} in question ${idx} must have text:string and points:number`);
+                }
+              });
+            });
+            setQuestions(parsed);
+            setRoundIndex(0);
+            setEditingQuestions(false);
+          } catch (e) {
+            alert("Invalid JSON: " + e.message);
+          }
+        }
+
+        if (!current) {
+          return (
+            <div className="min-h-screen w-full bg-emerald-950 text-emerald-50 flex items-center justify-center p-6">
+              <div className="max-w-xl w-full text-center">
+                <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-red-600" />
+                <h1 className="text-3xl font-bold mb-2">BSA Family Feud Night</h1>
+                <p className="opacity-80">No questions loaded. Add some below.</p>
+                <button
+                  className="mt-6 px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 transition"
+                  onClick={() => setQuestions(SAMPLE_QUESTIONS)}
+                >
+                  Load sample questions
+                </button>
               </div>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="text-sm opacity-80">Multiplier</div>
-              <button onClick={nextMultiplier} className="px-3 py-1 rounded-lg bg-emerald-800/60 font-semibold">×{multiplier}</button>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="text-sm opacity-80">Revealed points</div>
-              <div className="text-xl font-semibold tabular-nums">{revealedPoints}</div>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="text-sm opacity-80">Round value</div>
-              <div className="text-2xl font-bold tabular-nums">{revealedPoints * multiplier}</div>
-            </div>
-            <div className="h-px bg-emerald-800/80" />
-            <div className="flex items-center justify-between">
-              <div className="text-sm opacity-80">Strikes</div>
-              <div className="flex items-center gap-2">
-                <div className="flex gap-1 text-2xl">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <span key={i} className={"font-black " + (i < strikes ? "text-red-400" : "text-emerald-700")}>X</span>
-                  ))}
+          );
+        }
+
+        return (
+          <div className="min-h-screen w-full bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-emerald-50 p-4 md:p-8">
+            <div className="max-w-6xl mx-auto space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-600 shadow-md" />
+                  <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">BSA Family Feud Night</h1>
                 </div>
-                <div className="flex gap-2 ml-2">
-                  <button onClick={addStrike} className="px-2 py-1 rounded-lg bg-emerald-800/60">+1</button>
-                  <button onClick={clearStrikes} className="px-2 py-1 rounded-lg bg-emerald-800/60">Clear</button>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => setEditingQuestions((v) => !v)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">{editingQuestions ? "Close editor" : "Questions editor"}</button>
+                  <button onClick={() => resetGame(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reset game</button>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Team B */}
-          <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
-            <label className="text-xs uppercase tracking-wider opacity-70">Team B</label>
-            <input
-              value={teamBName}
-              onChange={(e) => setTeamBName(e.target.value)}
-              className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1"
-            />
-            <div className="mt-3 text-4xl font-bold tabular-nums">{scoreB}</div>
-          </div>
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+                <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
+                  <label className="text-xs uppercase tracking-wider opacity-70">Team A</label>
+                  <input value={teamAName} onChange={(e) => setTeamAName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
+                  <div className="mt-3 text-4xl font-bold tabular-nums">{scoreA}</div>
+                </div>
 
-        {/* Question Card */}
-        <div className="relative rounded-2xl bg-gradient-to-br from-emerald-900 to-emerald-950 p-5 border border-emerald-800/80 shadow-md overflow-hidden">
-          <div className="text-sm uppercase tracking-widest opacity-70">Question</div>
-
-          {/* Hidden overlay until first click */}
-          {questionHidden ? (
-            <button
-              onClick={() => setQuestionHidden(false)}
-              className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition"
-            >
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-16 h-16 rounded-full bg-red-600 shadow" />
-                <div className="text-2xl md:text-3xl font-bold">Tap to reveal the question</div>
-                <div className="text-sm opacity-80">(Answers stay hidden until you click each tile)</div>
-              </div>
-            </button>
-          ) : (
-            <>
-              <div className="mt-1 text-2xl md:text-3xl font-bold leading-snug">{current.prompt}</div>
-
-              {/* Answers grid */}
-              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {current.answers.map((ans, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleReveal(i)}
-                    className={`group relative rounded-2xl border border-emerald-800/70 p-4 text-left transition shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-emerald-950 ${
-                      revealed[i] ? "bg-emerald-50 text-emerald-950" : "bg-emerald-950/40 text-emerald-50"
-                    }`}
-                    aria-pressed={revealed[i]}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="font-semibold text-lg break-words">
-                        {revealed[i] ? ans.text : `#${i + 1}`}
+                <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm opacity-80">Round</div>
+                    <div className="flex items-center gap-1">
+                      <button onClick={prevRound} className="px-3 py-1 rounded-lg bg-emerald-800/60">◀</button>
+                      <div className="px-3 py-1 rounded-lg bg-emerald-800/60 tabular-nums">{roundIndex + 1}/{questions.length}</div>
+                      <button onClick={nextRound} className="px-3 py-1 rounded-lg bg-emerald-800/60">▶</button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm opacity-80">Multiplier</div>
+                    <button onClick={nextMultiplier} className="px-3 py-1 rounded-lg bg-emerald-800/60 font-semibold">×{multiplier}</button>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm opacity-80">Revealed points</div>
+                    <div className="text-xl font-semibold tabular-nums">{revealedPoints}</div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm opacity-80">Round value</div>
+                    <div className="text-2xl font-bold tabular-nums">{revealedPoints * multiplier}</div>
+                  </div>
+                  <div className="h-px bg-emerald-800/80" />
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm opacity-80">Strikes</div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex gap-1 text-2xl">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                          <span key={i} className={"font-black " + (i < strikes ? "text-red-400" : "text-emerald-700")}>X</span>
+                        ))}
                       </div>
-                      <div className={`rounded-xl px-3 py-1 text-sm tabular-nums ${
-                        revealed[i] ? "bg-emerald-900 text-emerald-50" : "bg-emerald-800 text-emerald-100"
-                      }`}>
-                        {revealed[i] ? ans.points : "?"}
+                      <div className="flex gap-2 ml-2">
+                        <button onClick={addStrike} className="px-2 py-1 rounded-lg bg-emerald-800/60">+1</button>
+                        <button onClick={clearStrikes} className="px-2 py-1 rounded-lg bg-emerald-800/60">Clear</button>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
+                  <label className="text-xs uppercase tracking-wider opacity-70">Team B</label>
+                  <input value={teamBName} onChange={(e) => setTeamBName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
+                  <div className="mt-3 text-4xl font-bold tabular-nums">{scoreB}</div>
+                </div>
+              </div>
+
+              <div className="relative rounded-2xl bg-gradient-to-br from-emerald-900 to-emerald-950 p-5 border border-emerald-800/80 shadow-md overflow-hidden">
+                <div className="text-sm uppercase tracking-widest opacity-70">Question</div>
+
+                {questionHidden ? (
+                  <button onClick={() => setQuestionHidden(false)} className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-16 h-16 rounded-full bg-red-600 shadow" />
+                      <div className="text-2xl md:text-3xl font-bold">Tap to reveal the question</div>
+                      <div className="text-sm opacity-80">(Answers stay hidden until you click each tile)</div>
+                    </div>
                   </button>
-                ))}
+                ) : (
+                  <>
+                    <div className="mt-1 text-2xl md:text-3xl font-bold leading-snug">{current.prompt}</div>
+
+                    <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {current.answers.map((ans, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleReveal(i)}
+                          className={`group relative rounded-2xl border border-emerald-800/70 p-4 text-left transition shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-emerald-950 ${
+                            revealed[i] ? "bg-emerald-50 text-emerald-950" : "bg-emerald-950/40 text-emerald-50"
+                          }`}
+                          aria-pressed={revealed[i]}
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="font-semibold text-lg break-words">{revealed[i] ? ans.text : `#${i + 1}`}</div>
+                            <div className={`rounded-xl px-3 py-1 text-sm tabular-nums ${
+                              revealed[i] ? "bg-emerald-900 text-emerald-50" : "bg-emerald-800 text-emerald-100"
+                            }`}>{revealed[i] ? ans.points : "?"}</div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                <div className="mt-6 flex flex-wrap items-center gap-2">
+                  <button onClick={() => toggleRevealAll(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reveal all</button>
+                  <button onClick={() => toggleRevealAll(false)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Hide all</button>
+                  <span className="mx-1 opacity-60">|</span>
+                  <button onClick={() => awardRound("A")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamAName}</button>
+                  <button onClick={() => awardRound("B")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamBName}</button>
+                  <span className="mx-1 opacity-60">|</span>
+                  <button onClick={prevRound} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Prev round</button>
+                  <button onClick={nextRound} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Next round</button>
+                </div>
+
+                <div className="mt-4 h-2 w-full rounded-full bg-emerald-800 overflow-hidden">
+                  <div className="h-full bg-red-600 transition-all" style={{ width: `${(revealed.filter(Boolean).length / (current?.answers.length || 1)) * 100}%` }} />
+                </div>
+                <div className="mt-2 text-xs opacity-70">Revealed {revealed.filter(Boolean).length}/{current.answers.length} • Total possible: {totalPossible}</div>
               </div>
-            </>
-          )}
 
-          {/* Controls */}
-          <div className="mt-6 flex flex-wrap items-center gap-2">
-            <button onClick={() => toggleRevealAll(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reveal all</button>
-            <button onClick={() => toggleRevealAll(false)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Hide all</button>
-            <span className="mx-1 opacity-60">|</span>
-            <button onClick={() => awardRound("A")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamAName}</button>
-            <button onClick={() => awardRound("B")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamBName}</button>
-            <span className="mx-1 opacity-60">|</span>
-            <button onClick={prevRound} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Prev round</button>
-            <button onClick={nextRound} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Next round</button>
-          </div>
+              {editingQuestions && (
+                <div className="rounded-2xl bg-emerald-950/60 border border-emerald-900 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-lg font-semibold">Questions editor (JSON)</h2>
+                    <div className="flex gap-2">
+                      <button onClick={() => setJsonDraft(JSON.stringify(questions, null, 2))} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Load current</button>
+                      <button onClick={() => setJsonDraft(JSON.stringify(SAMPLE_QUESTIONS, null, 2))} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Load samples</button>
+                      <button onClick={applyQuestionsJSON} className="px-3 py-2 rounded-xl bg-lime-500 hover:bg-lime-400 text-emerald-950 font-semibold">Save & apply</button>
+                    </div>
+                  </div>
+                  <p className="text-sm opacity-75 mb-3">Paste or edit an array of objects with <code>prompt</code> and <code>answers[]</code> (each answer has <code>text</code> and <code>points</code> numbers).</p>
+                  <textarea value={jsonDraft} onChange={(e) => setJsonDraft(e.target.value)} spellCheck={false} className="w-full h-72 md:h-96 p-3 rounded-xl bg-emerald-950/80 border border-emerald-800 font-mono text-sm" />
+                </div>
+              )}
 
-          {/* Progress bar of revealed */}
-          <div className="mt-4 h-2 w-full rounded-full bg-emerald-800 overflow-hidden">
-            <div
-              className="h-full bg-red-600 transition-all"
-              style={{ width: `${(revealed.filter(Boolean).length / (current?.answers.length || 1)) * 100}%` }}
-            />
-          </div>
-          <div className="mt-2 text-xs opacity-70">Revealed {revealed.filter(Boolean).length}/{current.answers.length} • Total possible: {totalPossible}</div>
-        </div>
-
-        {/* Questions JSON Editor */}
-        {editingQuestions && (
-          <div className="rounded-2xl bg-emerald-950/60 border border-emerald-900 p-4">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-semibold">Questions editor (JSON)</h2>
-              <div className="flex gap-2">
-                <button onClick={() => setJsonDraft(JSON.stringify(questions, null, 2))} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Load current</button>
-                <button onClick={() => setJsonDraft(JSON.stringify(SAMPLE_QUESTIONS, null, 2))} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Load samples</button>
-                <button onClick={applyQuestionsJSON} className="px-3 py-2 rounded-xl bg-lime-500 hover:bg-lime-400 text-emerald-950 font-semibold">Save & apply</button>
-              </div>
+              <div className="text-xs opacity-70 text-center py-2">Tip: Start each round by revealing the question. Use ×1/×2/×3 for double/triple rounds. Award points after a regular play or a steal.</div>
             </div>
-            <p className="text-sm opacity-75 mb-3">Paste or edit an array of objects with <code>prompt</code> and <code>answers[]</code> (each answer has <code>text</code> and <code>points</code> numbers).</p>
-            <textarea
-              value={jsonDraft}
-              onChange={(e) => setJsonDraft(e.target.value)}
-              spellCheck={false}
-              className="w-full h-72 md:h-96 p-3 rounded-xl bg-emerald-950/80 border border-emerald-800 font-mono text-sm"
-            />
           </div>
-        )}
+        );
+      }
 
-        {/* Footer */}
-        <div className="text-xs opacity-70 text-center py-2">Tip: Start each round by revealing the question. Use ×1/×2/×3 for double/triple rounds. Award points after a regular play or a steal.</div>
-      </div>
-    </div>
-  );
-}
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<FamilyFeudLite />);
+    </script>
+  </body>
+</html>
