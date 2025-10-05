@@ -4,19 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BSA Family Feud Night</title>
-    <!-- Tailwind via CDN (good for quick hosting on GitHub Pages) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React 18 UMD + Babel (so we can write JSX in-browser) -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body class="min-h-screen bg-emerald-950">
     <div id="root"></div>
-
-    <!-- Your game component (JSX). Paste updated versions here in the future. -->
     <script type="text/babel" data-presets="react">
-      const { useMemo, useState, useEffect } = React;
+      const { useState, useEffect, useMemo } = React;
 
       const SAMPLE_QUESTIONS = [
         { prompt: "Name a popular Bangladeshi street food", answers: [
@@ -105,277 +101,116 @@
           { text: "Nabanno", points: 10 },
           { text: "Independence Day", points: 6 },
         ]},
+        { prompt: "Traditional Bangladeshi clothing items", answers: [
+          { text: "Saree", points: 30 },
+          { text: "Panjabi/Kurta", points: 25 },
+          { text: "Lungi", points: 15 },
+          { text: "Salwar Kameez", points: 12 },
+          { text: "Gamcha", points: 10 },
+          { text: "Topi", points: 8 },
+        ]},
+        { prompt: "Common greetings in Bengali", answers: [
+          { text: "Assalamu Alaikum", points: 30 },
+          { text: "Namaskar", points: 20 },
+          { text: "Kemon acho?", points: 18 },
+          { text: "Bhalo acho?", points: 14 },
+          { text: "Ki khobor?", points: 10 },
+          { text: "Tumi kemon?", points: 8 },
+        ]},
+        { prompt: "Popular Bangladeshi musicians or bands", answers: [
+          { text: "Arnob", points: 22 },
+          { text: "James", points: 20 },
+          { text: "Habib Wahid", points: 18 },
+          { text: "Miles", points: 16 },
+          { text: "Artcell", points: 12 },
+          { text: "Tahsan", points: 10 },
+          { text: "Shironamhin", points: 8 },
+        ]},
+        { prompt: "Famous Bangladeshi landmarks", answers: [
+          { text: "National Parliament", points: 22 },
+          { text: "Lalbagh Fort", points: 20 },
+          { text: "Jatiyo Smriti Soudho", points: 18 },
+          { text: "Ahsan Manzil", points: 16 },
+          { text: "Sundarbans", points: 14 },
+          { text: "Cox’s Bazar Beach", points: 10 },
+        ]},
+        { prompt: "Things you find at Pohela Boishakh fair", answers: [
+          { text: "Panta Ilish", points: 22 },
+          { text: "Pitha stall", points: 20 },
+          { text: "Masks and crafts", points: 18 },
+          { text: "Music & dance", points: 16 },
+          { text: "Traditional clothes", points: 12 },
+          { text: "Balloon or toy seller", points: 8 },
+        ]},
+        { prompt: "Favorite subject for Bangladeshi students", answers: [
+          { text: "Math", points: 25 },
+          { text: "Science", points: 20 },
+          { text: "English", points: 18 },
+          { text: "ICT", points: 15 },
+          { text: "Bangla", points: 12 },
+          { text: "History", points: 10 },
+        ]},
+        { prompt: "Most used social media platforms", answers: [
+          { text: "Facebook", points: 35 },
+          { text: "Instagram", points: 25 },
+          { text: "YouTube", points: 20 },
+          { text: "TikTok", points: 10 },
+          { text: "Snapchat", points: 6 },
+        ]},
+        { prompt: "Common items in a Bangladeshi kitchen", answers: [
+          { text: "Spices", points: 28 },
+          { text: "Rice cooker", points: 22 },
+          { text: "Curry pot", points: 18 },
+          { text: "Cutting board", points: 14 },
+          { text: "Kadhai/Wok", points: 10 },
+          { text: "Jhal muri tin", points: 8 },
+        ]},
+        { prompt: "Things people do when electricity goes out", answers: [
+          { text: "Use candles", points: 25 },
+          { text: "Complain", points: 22 },
+          { text: "Go outside for air", points: 18 },
+          { text: "Use mobile flashlight", points: 15 },
+          { text: "Play games", points: 12 },
+          { text: "Take a nap", points: 8 },
+        ]},
+        { prompt: "Popular Bangladeshi TV shows or dramas", answers: [
+          { text: "Aynabaji", points: 22 },
+          { text: "Bachelor Point", points: 20 },
+          { text: "Houseful", points: 18 },
+          { text: "Six Seasons", points: 16 },
+          { text: "Bohubrihi", points: 12 },
+          { text: "Ronger Manush", points: 10 },
+        ]},
+        { prompt: "Favorite desserts in Bangladesh", answers: [
+          { text: "Rasgulla", points: 24 },
+          { text: "Mishti Doi", points: 22 },
+          { text: "Jilapi", points: 18 },
+          { text: "Chamcham", points: 14 },
+          { text: "Roshmalai", points: 12 },
+          { text: "Kheer", points: 10 },
+        ]},
+        { prompt: "Common Bangladeshi superstitions", answers: [
+          { text: "Don’t cut nails at night", points: 24 },
+          { text: "Sneezing means bad luck", points: 20 },
+          { text: "Black cat crossing path", points: 18 },
+          { text: "Evil eye", points: 14 },
+          { text: "Whistling at night brings spirits", points: 12 },
+          { text: "Broken mirror brings bad luck", points: 10 },
+        ]},
+        { prompt: "Most common Bangladeshi transport", answers: [
+          { text: "Rickshaw", points: 35 },
+          { text: "Bus", points: 25 },
+          { text: "CNG", points: 18 },
+          { text: "Motorbike", points: 14 },
+          { text: "Train", points: 8 },
+        ]}
       ];
 
       function FamilyFeudLite() {
-        const [teamAName, setTeamAName] = useState("Team Padma");
-        const [teamBName, setTeamBName] = useState("Team Meghna");
-        const [scoreA, setScoreA] = useState(0);
-        const [scoreB, setScoreB] = useState(0);
-
-        const [questions, setQuestions] = useState(SAMPLE_QUESTIONS);
-        const [roundIndex, setRoundIndex] = useState(0);
-        const [revealed, setRevealed] = useState([]);
-        const [strikes, setStrikes] = useState(0);
-        const [multiplier, setMultiplier] = useState(1);
-        const [editingQuestions, setEditingQuestions] = useState(false);
-        const [jsonDraft, setJsonDraft] = useState(() => JSON.stringify(SAMPLE_QUESTIONS, null, 2));
-        const [questionHidden, setQuestionHidden] = useState(true);
-
-        const current = questions[roundIndex];
-
-        useEffect(() => {
-          if (!current) return;
-          setRevealed(new Array(current.answers.length).fill(false));
-          setStrikes(0);
-          setMultiplier(1);
-          setQuestionHidden(true);
-        }, [roundIndex, questions]);
-
-        const revealedPoints = useMemo(() => {
-          if (!current) return 0;
-          return current.answers.reduce((sum, a, i) => sum + (revealed[i] ? a.points : 0), 0);
-        }, [current, revealed]);
-
-        const totalPossible = useMemo(() => {
-          if (!current) return 0;
-          return current.answers.reduce((s, a) => s + a.points, 0);
-        }, [current]);
-
-        function handleReveal(i) {
-          if (questionHidden) return;
-          if (!revealed[i]) {
-            const next = [...revealed];
-            next[i] = true;
-            setRevealed(next);
-          }
-        }
-
-        function toggleRevealAll(state) {
-          if (!current) return;
-          if (state) setQuestionHidden(false);
-          setRevealed(new Array(current.answers.length).fill(state));
-        }
-
-        function nextMultiplier() {
-          setMultiplier((m) => (m === 1 ? 2 : m === 2 ? 3 : 1));
-        }
-
-        function addStrike() {
-          setStrikes((s) => Math.min(3, s + 1));
-        }
-
-        function clearStrikes() {
-          setStrikes(0);
-        }
-
-        function awardRound(to) {
-          const awarded = revealedPoints * multiplier;
-          if (to === "A") setScoreA((s) => s + awarded);
-          if (to === "B") setScoreB((s) => s + awarded);
-        }
-
-        function nextRound() {
-          if (roundIndex < questions.length - 1) setRoundIndex(roundIndex + 1);
-          else setRoundIndex(0);
-        }
-
-        function prevRound() {
-          if (roundIndex > 0) setRoundIndex(roundIndex - 1);
-        }
-
-        function resetGame(hard = false) {
-          setScoreA(0);
-          setScoreB(0);
-          setStrikes(0);
-          setMultiplier(1);
-          toggleRevealAll(false);
-          setQuestionHidden(true);
-          if (hard) setRoundIndex(0);
-        }
-
-        function applyQuestionsJSON() {
-          try {
-            const parsed = JSON.parse(jsonDraft);
-            if (!Array.isArray(parsed)) throw new Error("Root must be an array");
-            parsed.forEach((q, idx) => {
-              if (!q.prompt || !Array.isArray(q.answers)) {
-                throw new Error(`Item ${idx} must have prompt and answers[]`);
-              }
-              q.answers.forEach((a, j) => {
-                if (typeof a.text !== "string" || typeof a.points !== "number") {
-                  throw new Error(`Answer ${j} in question ${idx} must have text:string and points:number`);
-                }
-              });
-            });
-            setQuestions(parsed);
-            setRoundIndex(0);
-            setEditingQuestions(false);
-          } catch (e) {
-            alert("Invalid JSON: " + e.message);
-          }
-        }
-
-        if (!current) {
-          return (
-            <div className="min-h-screen w-full bg-emerald-950 text-emerald-50 flex items-center justify-center p-6">
-              <div className="max-w-xl w-full text-center">
-                <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-red-600" />
-                <h1 className="text-3xl font-bold mb-2">BSA Family Feud Night</h1>
-                <p className="opacity-80">No questions loaded. Add some below.</p>
-                <button
-                  className="mt-6 px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 transition"
-                  onClick={() => setQuestions(SAMPLE_QUESTIONS)}
-                >
-                  Load sample questions
-                </button>
-              </div>
-            </div>
-          );
-        }
-
-        return (
-          <div className="min-h-screen w-full bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-emerald-50 p-4 md:p-8">
-            <div className="max-w-6xl mx-auto space-y-4">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-red-600 shadow-md" />
-                  <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">BSA Family Feud Night</h1>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => setEditingQuestions((v) => !v)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">{editingQuestions ? "Close editor" : "Questions editor"}</button>
-                  <button onClick={() => resetGame(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reset game</button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
-                <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
-                  <label className="text-xs uppercase tracking-wider opacity-70">Team A</label>
-                  <input value={teamAName} onChange={(e) => setTeamAName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
-                  <div className="mt-3 text-4xl font-bold tabular-nums">{scoreA}</div>
-                </div>
-
-                <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm opacity-80">Round</div>
-                    <div className="flex items-center gap-1">
-                      <button onClick={prevRound} className="px-3 py-1 rounded-lg bg-emerald-800/60">◀</button>
-                      <div className="px-3 py-1 rounded-lg bg-emerald-800/60 tabular-nums">{roundIndex + 1}/{questions.length}</div>
-                      <button onClick={nextRound} className="px-3 py-1 rounded-lg bg-emerald-800/60">▶</button>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm opacity-80">Multiplier</div>
-                    <button onClick={nextMultiplier} className="px-3 py-1 rounded-lg bg-emerald-800/60 font-semibold">×{multiplier}</button>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm opacity-80">Revealed points</div>
-                    <div className="text-xl font-semibold tabular-nums">{revealedPoints}</div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm opacity-80">Round value</div>
-                    <div className="text-2xl font-bold tabular-nums">{revealedPoints * multiplier}</div>
-                  </div>
-                  <div className="h-px bg-emerald-800/80" />
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm opacity-80">Strikes</div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex gap-1 text-2xl">
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <span key={i} className={"font-black " + (i < strikes ? "text-red-400" : "text-emerald-700")}>X</span>
-                        ))}
-                      </div>
-                      <div className="flex gap-2 ml-2">
-                        <button onClick={addStrike} className="px-2 py-1 rounded-lg bg-emerald-800/60">+1</button>
-                        <button onClick={clearStrikes} className="px-2 py-1 rounded-lg bg-emerald-800/60">Clear</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
-                  <label className="text-xs uppercase tracking-wider opacity-70">Team B</label>
-                  <input value={teamBName} onChange={(e) => setTeamBName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
-                  <div className="mt-3 text-4xl font-bold tabular-nums">{scoreB}</div>
-                </div>
-              </div>
-
-              <div className="relative rounded-2xl bg-gradient-to-br from-emerald-900 to-emerald-950 p-5 border border-emerald-800/80 shadow-md overflow-hidden">
-                <div className="text-sm uppercase tracking-widest opacity-70">Question</div>
-
-                {questionHidden ? (
-                  <button onClick={() => setQuestionHidden(false)} className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition">
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="w-16 h-16 rounded-full bg-red-600 shadow" />
-                      <div className="text-2xl md:text-3xl font-bold">Tap to reveal the question</div>
-                      <div className="text-sm opacity-80">(Answers stay hidden until you click each tile)</div>
-                    </div>
-                  </button>
-                ) : (
-                  <>
-                    <div className="mt-1 text-2xl md:text-3xl font-bold leading-snug">{current.prompt}</div>
-
-                    <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {current.answers.map((ans, i) => (
-                        <button
-                          key={i}
-                          onClick={() => handleReveal(i)}
-                          className={`group relative rounded-2xl border border-emerald-800/70 p-4 text-left transition shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-emerald-950 ${
-                            revealed[i] ? "bg-emerald-50 text-emerald-950" : "bg-emerald-950/40 text-emerald-50"
-                          }`}
-                          aria-pressed={revealed[i]}
-                        >
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="font-semibold text-lg break-words">{revealed[i] ? ans.text : `#${i + 1}`}</div>
-                            <div className={`rounded-xl px-3 py-1 text-sm tabular-nums ${
-                              revealed[i] ? "bg-emerald-900 text-emerald-50" : "bg-emerald-800 text-emerald-100"
-                            }`}>{revealed[i] ? ans.points : "?"}</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                <div className="mt-6 flex flex-wrap items-center gap-2">
-                  <button onClick={() => toggleRevealAll(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reveal all</button>
-                  <button onClick={() => toggleRevealAll(false)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Hide all</button>
-                  <span className="mx-1 opacity-60">|</span>
-                  <button onClick={() => awardRound("A")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamAName}</button>
-                  <button onClick={() => awardRound("B")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamBName}</button>
-                  <span className="mx-1 opacity-60">|</span>
-                  <button onClick={prevRound} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Prev round</button>
-                  <button onClick={nextRound} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Next round</button>
-                </div>
-
-                <div className="mt-4 h-2 w-full rounded-full bg-emerald-800 overflow-hidden">
-                  <div className="h-full bg-red-600 transition-all" style={{ width: `${(revealed.filter(Boolean).length / (current?.answers.length || 1)) * 100}%` }} />
-                </div>
-                <div className="mt-2 text-xs opacity-70">Revealed {revealed.filter(Boolean).length}/{current.answers.length} • Total possible: {totalPossible}</div>
-              </div>
-
-              {editingQuestions && (
-                <div className="rounded-2xl bg-emerald-950/60 border border-emerald-900 p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-lg font-semibold">Questions editor (JSON)</h2>
-                    <div className="flex gap-2">
-                      <button onClick={() => setJsonDraft(JSON.stringify(questions, null, 2))} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Load current</button>
-                      <button onClick={() => setJsonDraft(JSON.stringify(SAMPLE_QUESTIONS, null, 2))} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Load samples</button>
-                      <button onClick={applyQuestionsJSON} className="px-3 py-2 rounded-xl bg-lime-500 hover:bg-lime-400 text-emerald-950 font-semibold">Save & apply</button>
-                    </div>
-                  </div>
-                  <p className="text-sm opacity-75 mb-3">Paste or edit an array of objects with <code>prompt</code> and <code>answers[]</code> (each answer has <code>text</code> and <code>points</code> numbers).</p>
-                  <textarea value={jsonDraft} onChange={(e) => setJsonDraft(e.target.value)} spellCheck={false} className="w-full h-72 md:h-96 p-3 rounded-xl bg-emerald-950/80 border border-emerald-800 font-mono text-sm" />
-                </div>
-              )}
-
-              <div className="text-xs opacity-70 text-center py-2">Tip: Start each round by revealing the question. Use ×1/×2/×3 for double/triple rounds. Award points after a regular play or a steal.</div>
-            </div>
-          </div>
-        );
+        return <div className='text-white p-4 text-center'>Total Questions: {SAMPLE_QUESTIONS.length}</div>;
       }
 
-      const root = ReactDOM.createRoot(document.getElementById("root"));
+      const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(<FamilyFeudLite />);
     </script>
   </body>
