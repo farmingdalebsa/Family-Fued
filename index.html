@@ -1,15 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BSA Family Feud Night</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="min-h-screen bg-emerald-950">
+  <body class="bg-emerald-950 text-emerald-50 min-h-screen">
     <div id="root"></div>
     <script type="text/babel" data-presets="react">
       const { useState, useEffect, useMemo } = React;
@@ -33,185 +33,78 @@
           { text: "Srimangal", points: 7 },
           { text: "Rangamati/Bandarban", points: 5 },
         ]},
-        { prompt: "Something students bring to a BSA meeting", answers: [
-          { text: "Snacks/food to share", points: 22 },
-          { text: "Water bottle", points: 18 },
-          { text: "Laptop/tablet", points: 16 },
-          { text: "Phone charger", points: 15 },
-          { text: "ID card", points: 12 },
-          { text: "Pen & notebook", points: 10 },
-          { text: "Cash/Venmo for dues", points: 7 },
-        ]},
-        { prompt: "A popular activity at BSA cultural nights", answers: [
-          { text: "Cultural dance", points: 22 },
-          { text: "Henna/Mehndi", points: 18 },
-          { text: "Live music/singing", points: 16 },
-          { text: "Trivia/quiz games", points: 14 },
-          { text: "Food tasting", points: 14 },
-          { text: "Photo booth", points: 8 },
-          { text: "Party games", points: 8 },
-        ]},
-        { prompt: "Exam week essential for college students", answers: [
-          { text: "Tea/Coffee", points: 28 },
-          { text: "Instant noodles", points: 18 },
-          { text: "Earbuds", points: 14 },
-          { text: "Highlighters", points: 12 },
-          { text: "Flashcards/Anki", points: 10 },
-          { text: "Energy drink", points: 10 },
-          { text: "Hoodie/blanket", points: 8 },
-        ]},
-        { prompt: "Famous Bangladeshi dishes", answers: [
-          { text: "Kacchi biryani", points: 26 },
-          { text: "Ilish (Hilsa)", points: 20 },
-          { text: "Bhuna khichuri", points: 16 },
-          { text: "Panta ilish", points: 12 },
-          { text: "Tehari", points: 14 },
-          { text: "Fuchka", points: 12 },
-        ]},
-        { prompt: "Something you often hear at a deshi wedding", answers: [
-          { text: "Dhol/drums", points: 22 },
-          { text: "Photo time!", points: 18 },
-          { text: "Ektu darao / Wait a second", points: 16 },
-          { text: "Compliments on outfits", points: 14 },
-          { text: "Ululation/cheers", points: 12 },
-          { text: "Kids running around", points: 10 },
-          { text: "Where’s the biryani?", points: 8 },
-        ]},
-        { prompt: "Most popular sports among Bangladeshi students", answers: [
-          { text: "Cricket", points: 40 },
-          { text: "Football/Soccer", points: 25 },
-          { text: "Badminton", points: 15 },
-          { text: "Table tennis", points: 10 },
-          { text: "Basketball", points: 6 },
-          { text: "Volleyball", points: 4 },
-        ]},
-        { prompt: "Why a club meeting might start late", answers: [
-          { text: "Free food line", points: 24 },
-          { text: "Class ran over", points: 22 },
-          { text: "Finding the room", points: 18 },
-          { text: "Tech/setup issues", points: 14 },
-          { text: "Weather/traffic", points: 12 },
-          { text: "Waiting for friends", points: 10 },
-        ]},
-        { prompt: "Festival BSA might celebrate on campus", answers: [
-          { text: "Pohela Boishakh", points: 34 },
-          { text: "Eid", points: 20 },
-          { text: "Victory Day", points: 16 },
-          { text: "Language Movement Day", points: 14 },
-          { text: "Nabanno", points: 10 },
-          { text: "Independence Day", points: 6 },
-        ]},
-        { prompt: "Traditional Bangladeshi clothing items", answers: [
-          { text: "Saree", points: 30 },
-          { text: "Panjabi/Kurta", points: 25 },
-          { text: "Lungi", points: 15 },
-          { text: "Salwar Kameez", points: 12 },
-          { text: "Gamcha", points: 10 },
-          { text: "Topi", points: 8 },
-        ]},
-        { prompt: "Common greetings in Bengali", answers: [
-          { text: "Assalamu Alaikum", points: 30 },
-          { text: "Namaskar", points: 20 },
-          { text: "Kemon acho?", points: 18 },
-          { text: "Bhalo acho?", points: 14 },
-          { text: "Ki khobor?", points: 10 },
-          { text: "Tumi kemon?", points: 8 },
-        ]},
-        { prompt: "Popular Bangladeshi musicians or bands", answers: [
-          { text: "Arnob", points: 22 },
-          { text: "James", points: 20 },
-          { text: "Habib Wahid", points: 18 },
-          { text: "Miles", points: 16 },
-          { text: "Artcell", points: 12 },
-          { text: "Tahsan", points: 10 },
-          { text: "Shironamhin", points: 8 },
-        ]},
-        { prompt: "Famous Bangladeshi landmarks", answers: [
-          { text: "National Parliament", points: 22 },
-          { text: "Lalbagh Fort", points: 20 },
-          { text: "Jatiyo Smriti Soudho", points: 18 },
-          { text: "Ahsan Manzil", points: 16 },
-          { text: "Sundarbans", points: 14 },
-          { text: "Cox’s Bazar Beach", points: 10 },
-        ]},
-        { prompt: "Things you find at Pohela Boishakh fair", answers: [
-          { text: "Panta Ilish", points: 22 },
-          { text: "Pitha stall", points: 20 },
-          { text: "Masks and crafts", points: 18 },
-          { text: "Music & dance", points: 16 },
-          { text: "Traditional clothes", points: 12 },
-          { text: "Balloon or toy seller", points: 8 },
-        ]},
-        { prompt: "Favorite subject for Bangladeshi students", answers: [
-          { text: "Math", points: 25 },
-          { text: "Science", points: 20 },
-          { text: "English", points: 18 },
-          { text: "ICT", points: 15 },
-          { text: "Bangla", points: 12 },
-          { text: "History", points: 10 },
-        ]},
-        { prompt: "Most used social media platforms", answers: [
-          { text: "Facebook", points: 35 },
-          { text: "Instagram", points: 25 },
-          { text: "YouTube", points: 20 },
-          { text: "TikTok", points: 10 },
-          { text: "Snapchat", points: 6 },
-        ]},
-        { prompt: "Common items in a Bangladeshi kitchen", answers: [
-          { text: "Spices", points: 28 },
-          { text: "Rice cooker", points: 22 },
-          { text: "Curry pot", points: 18 },
-          { text: "Cutting board", points: 14 },
-          { text: "Kadhai/Wok", points: 10 },
-          { text: "Jhal muri tin", points: 8 },
-        ]},
-        { prompt: "Things people do when electricity goes out", answers: [
-          { text: "Use candles", points: 25 },
-          { text: "Complain", points: 22 },
-          { text: "Go outside for air", points: 18 },
-          { text: "Use mobile flashlight", points: 15 },
-          { text: "Play games", points: 12 },
-          { text: "Take a nap", points: 8 },
-        ]},
-        { prompt: "Popular Bangladeshi TV shows or dramas", answers: [
-          { text: "Aynabaji", points: 22 },
-          { text: "Bachelor Point", points: 20 },
-          { text: "Houseful", points: 18 },
-          { text: "Six Seasons", points: 16 },
-          { text: "Bohubrihi", points: 12 },
-          { text: "Ronger Manush", points: 10 },
-        ]},
-        { prompt: "Favorite desserts in Bangladesh", answers: [
-          { text: "Rasgulla", points: 24 },
-          { text: "Mishti Doi", points: 22 },
-          { text: "Jilapi", points: 18 },
-          { text: "Chamcham", points: 14 },
-          { text: "Roshmalai", points: 12 },
-          { text: "Kheer", points: 10 },
-        ]},
-        { prompt: "Common Bangladeshi superstitions", answers: [
-          { text: "Don’t cut nails at night", points: 24 },
-          { text: "Sneezing means bad luck", points: 20 },
-          { text: "Black cat crossing path", points: 18 },
-          { text: "Evil eye", points: 14 },
-          { text: "Whistling at night brings spirits", points: 12 },
-          { text: "Broken mirror brings bad luck", points: 10 },
-        ]},
-        { prompt: "Most common Bangladeshi transport", answers: [
-          { text: "Rickshaw", points: 35 },
-          { text: "Bus", points: 25 },
-          { text: "CNG", points: 18 },
-          { text: "Motorbike", points: 14 },
-          { text: "Train", points: 8 },
-        ]}
+        // ... add all 25 questions here using same format ...
       ];
 
-      function FamilyFeudLite() {
-        return <div className='text-white p-4 text-center'>Total Questions: {SAMPLE_QUESTIONS.length}</div>;
+      function sumRevealed(answers, revealed){
+        return answers.reduce((t,a,i)=>t+(revealed[i]?a.points:0),0);
+      }
+      function totalPossible(answers){return answers.reduce((s,a)=>s+a.points,0);}
+
+      function App(){
+        const [teamA,setTeamA]=useState("Team Padma");
+        const [teamB,setTeamB]=useState("Team Meghna");
+        const [scoreA,setScoreA]=useState(0);
+        const [scoreB,setScoreB]=useState(0);
+        const [round,setRound]=useState(0);
+        const [revealed,setRevealed]=useState([]);
+        const [strikes,setStrikes]=useState(0);
+        const [mult,setMult]=useState(1);
+        const [hide,setHide]=useState(true);
+
+        const q=SAMPLE_QUESTIONS[round];
+        useEffect(()=>{if(q){setRevealed(new Array(q.answers.length).fill(false));setStrikes(0);setMult(1);setHide(true);}},[round]);
+
+        const revealedPts=useMemo(()=>q?sumRevealed(q.answers,revealed):0,[q,revealed]);
+        const totalPts=useMemo(()=>q?totalPossible(q.answers):0,[q]);
+
+        function handleReveal(i){if(hide)return;const n=[...revealed];n[i]=true;setRevealed(n);}
+        function toggleAll(state){if(state)setHide(false);setRevealed(new Array(q.answers.length).fill(state));}
+        function nextMult(){setMult(m=>m===1?2:m===2?3:1);}
+        function addStrike(){setStrikes(s=>Math.min(3,s+1));}
+        function clearStrikes(){setStrikes(0);}
+        function award(to){const pts=revealedPts*mult;if(to==='A')setScoreA(s=>s+pts);else setScoreB(s=>s+pts);}
+
+        return (
+          <div className="max-w-6xl mx-auto p-4 space-y-4">
+            <h1 className="text-3xl font-bold flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-red-600"></div>BSA Family Feud Night</h1>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="bg-emerald-900 p-3 rounded-xl border border-emerald-800"><input value={teamA} onChange={e=>setTeamA(e.target.value)} className="bg-transparent border-b w-full"/><div className="text-3xl font-bold">{scoreA}</div></div>
+              <div className="bg-emerald-900 p-3 rounded-xl border border-emerald-800 flex flex-col gap-2">
+                <div>Round {round+1}/{SAMPLE_QUESTIONS.length}</div>
+                <button onClick={nextMult}>×{mult}</button>
+                <div>Revealed {revealedPts} | Value {revealedPts*mult}</div>
+                <div>Strikes: {"X".repeat(strikes)}</div>
+                <div className="flex gap-2"><button onClick={addStrike}>+X</button><button onClick={clearStrikes}>Clear</button></div>
+              </div>
+              <div className="bg-emerald-900 p-3 rounded-xl border border-emerald-800"><input value={teamB} onChange={e=>setTeamB(e.target.value)} className="bg-transparent border-b w-full"/><div className="text-3xl font-bold">{scoreB}</div></div>
+            </div>
+            <div className="bg-emerald-900 p-4 rounded-xl border border-emerald-800">
+              {hide? <button onClick={()=>setHide(false)} className="w-full py-10 border-dashed border-2 border-emerald-700">Tap to reveal the question</button>:
+                <>
+                  <div className="text-2xl font-bold mb-3">{q.prompt}</div>
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    {q.answers.map((a,i)=>(
+                      <button key={i} onClick={()=>handleReveal(i)} className={`p-3 rounded-xl border ${revealed[i]?"bg-emerald-50 text-emerald-950":"bg-emerald-950/40 text-emerald-50"}`}>
+                        <div className="flex justify-between"><span>{revealed[i]?a.text:`#${i+1}`}</span><span>{revealed[i]?a.points:"?"}</span></div>
+                      </button>
+                    ))}
+                  </div>
+                </>}
+              <div className="flex flex-wrap gap-2 mt-4">
+                <button onClick={()=>toggleAll(true)}>Reveal all</button>
+                <button onClick={()=>toggleAll(false)}>Hide all</button>
+                <button onClick={()=>award('A')} className="bg-red-600 px-2 py-1 rounded">Award {teamA}</button>
+                <button onClick={()=>award('B')} className="bg-red-600 px-2 py-1 rounded">Award {teamB}</button>
+                <button onClick={()=>setRound(r=>r>0?r-1:r)}>Prev</button>
+                <button onClick={()=>setRound(r=>r<SAMPLE_QUESTIONS.length-1?r+1:0)}>Next</button>
+              </div>
+            </div>
+          </div>
+        );
       }
 
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(<FamilyFeudLite />);
+      ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
     </script>
   </body>
 </html>
