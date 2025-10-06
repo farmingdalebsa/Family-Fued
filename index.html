@@ -16,7 +16,7 @@
 
     <!-- Your game component (JSX). Paste updated versions here in the future. -->
     <script type="text/babel" data-presets="react">
-      const { useMemo, useState, useEffect } = React;
+      const { useMemo, useState, useEffect, useRef } = React;
 
       const SAMPLE_QUESTIONS = [
         { prompt: "Name a popular Bangladeshi street food", answers: [
@@ -236,6 +236,67 @@
         const [jsonDraft, setJsonDraft] = useState(() => JSON.stringify(SAMPLE_QUESTIONS, null, 2));
         const [questionHidden, setQuestionHidden] = useState(true);
 
+        // ---- SOUND: Bell/Ding using Web Audio API ----
+        const audioCtxRef = useRef(null);
+        function ensureAudioCtx() {
+          if (!audioCtxRef.current) {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (Ctx) audioCtxRef.current = new Ctx();
+          }
+          return audioCtxRef.current;
+        }
+        function playDing(delayMs = 0) {
+          const ctx = ensureAudioCtx();
+          if (!ctx) return;
+
+          const start = ctx.currentTime + delayMs / 1000;
+
+          // Master gain for overall envelope
+          const masterGain = ctx.createGain();
+          masterGain.gain.setValueAtTime(0.0001, start);
+          masterGain.gain.exponentialRampToValueAtTime(0.4, start + 0.01);
+          masterGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.6);
+          masterGain.connect(ctx.destination);
+
+          // Add a few partials for a bell-ish timbre
+          const base = 880; // A5
+          const partials = [
+            { ratio: 1.0,   gain: 0.9, type: "sine" },
+            { ratio: 2.0,   gain: 0.4, type: "sine" },
+            { ratio: 2.4,   gain: 0.25, type: "sine" }, // inharmonic for bell flavor
+            { ratio: 3.0,   gain: 0.18, type: "sine" },
+            { ratio: 3.76,  gain: 0.12, type: "sine" }, // another inharmonic
+          ];
+
+          partials.forEach((p, idx) => {
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.type = p.type;
+            osc.frequency.setValueAtTime(base * p.ratio, start);
+
+            // Slight detune per partial for shimmer
+            if (osc.detune) osc.detune.setValueAtTime((idx - 2) * 3, start);
+
+            // Individual partial envelope (faster decay for higher partials)
+            const peak = Math.max(0.0001, p.gain);
+            g.gain.setValueAtTime(0.0001, start);
+            g.gain.exponentialRampToValueAtTime(peak, start + 0.006);
+            g.gain.exponentialRampToValueAtTime(0.0001, start + 0.35 + idx * 0.04);
+
+            osc.connect(g).connect(masterGain);
+            osc.start(start);
+            osc.stop(start + 0.7);
+          });
+
+          // Soft highpass to reduce low rumble (optional)
+          const hp = ctx.createBiquadFilter();
+          hp.type = "highpass";
+          hp.frequency.setValueAtTime(200, start);
+          masterGain.disconnect();
+          masterGain.connect(hp).connect(ctx.destination);
+        }
+        // ----------------------------------------------
+
         const current = questions[roundIndex];
 
         useEffect(() => {
@@ -262,12 +323,23 @@
             const next = [...revealed];
             next[i] = true;
             setRevealed(next);
+            // play bell/ding for single reveal
+            playDing(0);
           }
         }
 
         function toggleRevealAll(state) {
           if (!current) return;
           if (state) setQuestionHidden(false);
+
+          // When revealing all, play a short staggered ding for each unrevealed tile
+          if (state) {
+            const delayStep = 130; // ms between dings
+            revealed.forEach((isRev, idx) => {
+              if (!isRev) playDing(idx * delayStep);
+            });
+          }
+
           setRevealed(new Array(current.answers.length).fill(state));
         }
 
