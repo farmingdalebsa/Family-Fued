@@ -14,10 +14,10 @@
   <body class="min-h-screen bg-emerald-950">
     <div id="root"></div>
 
-    <!-- Only your reveal sound -->
+    <!-- Only your reveal sound file -->
     <audio id="reveal-audio" src="sounds/reveal.mp3" preload="auto"></audio>
 
-    <!-- Your game component (JSX). -->
+    <!-- Your game component (JSX). Paste updated versions here in the future. -->
     <script type="text/babel" data-presets="react">
       const { useMemo, useState, useEffect, useRef } = React;
 
@@ -239,6 +239,9 @@
         const [jsonDraft, setJsonDraft] = useState(() => JSON.stringify(SAMPLE_QUESTIONS, null, 2));
         const [questionHidden, setQuestionHidden] = useState(true);
 
+        // Sequential reveal state
+        const [isRevealingAll, setIsRevealingAll] = useState(false);
+
         // Only the reveal audio
         const revealAudioRef = useRef(null);
         useEffect(() => {
@@ -248,9 +251,34 @@
         function playReveal(delayMs = 0, volume = 1) {
           const el = revealAudioRef.current;
           if (!el) return;
-          const node = el.cloneNode(true);
+          const node = el.cloneNode(true); // allow overlap if needed
           node.volume = volume;
           setTimeout(() => { node.play().catch(() => {}); }, delayMs);
+        }
+
+        function sleep(ms) {
+          return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        async function revealAllSequential() {
+          if (!current || isRevealingAll) return;
+          setIsRevealingAll(true);
+          setQuestionHidden(false);
+
+          // Indices of tiles that are still hidden (top-to-bottom, left-to-right)
+          const toReveal = current.answers.map((_, i) => i).filter((i) => !revealed[i]);
+
+          for (const idx of toReveal) {
+            setRevealed((prev) => {
+              const next = [...prev];
+              next[idx] = true;
+              return next;
+            });
+            playReveal(0, 0.95);
+            await sleep(250); // adjust speed here
+          }
+
+          setIsRevealingAll(false);
         }
 
         const current = questions[roundIndex];
@@ -261,6 +289,7 @@
           setStrikes(0);
           setMultiplier(1);
           setQuestionHidden(true);
+          setIsRevealingAll(false);
         }, [roundIndex, questions]);
 
         const revealedPoints = useMemo(() => {
@@ -274,7 +303,7 @@
         }, [current]);
 
         function handleReveal(i) {
-          if (questionHidden) return;
+          if (questionHidden || isRevealingAll) return;
           if (!revealed[i]) {
             const next = [...revealed];
             next[i] = true;
@@ -285,16 +314,15 @@
 
         function toggleRevealAll(state) {
           if (!current) return;
-          if (state) setQuestionHidden(false);
 
           if (state) {
-            const delayStep = 120; // ms between dings
-            revealed.forEach((isRev, idx) => {
-              if (!isRev) playReveal(idx * delayStep, 0.95);
-            });
+            // Sequential reveal instead of all-at-once
+            revealAllSequential();
+            return;
           }
 
-          setRevealed(new Array(current.answers.length).fill(state));
+          // Hide all instantly
+          setRevealed(new Array(current.answers.length).fill(false));
         }
 
         function nextMultiplier() {
@@ -329,8 +357,9 @@
           setScoreB(0);
           setStrikes(0);
           setMultiplier(1);
-          toggleRevealAll(false);
+          setRevealed((prev) => prev.map(() => false));
           setQuestionHidden(true);
+          setIsRevealingAll(false);
           if (hard) setRoundIndex(0);
         }
 
@@ -383,8 +412,18 @@
                   <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">BSA Family Feud Night</h1>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setEditingQuestions((v) => !v)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">{editingQuestions ? "Close editor" : "Questions editor"}</button>
-                  <button onClick={() => resetGame(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reset game</button>
+                  <button
+                    onClick={() => setEditingQuestions((v) => !v)}
+                    className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700"
+                  >
+                    {editingQuestions ? "Close editor" : "Questions editor"}
+                  </button>
+                  <button
+                    onClick={() => resetGame(true)}
+                    className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700"
+                  >
+                    Reset game
+                  </button>
                 </div>
               </div>
 
@@ -444,7 +483,10 @@
                 <div className="text-sm uppercase tracking-widest opacity-70">Question</div>
 
                 {questionHidden ? (
-                  <button onClick={() => setQuestionHidden(false)} className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition">
+                  <button
+                    onClick={() => setQuestionHidden(false)}
+                    className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition"
+                  >
                     <div className="flex flex-col items-center gap-3">
                       <div className="w-16 h-16 rounded-full bg-red-600 shadow" />
                       <div className="text-2xl md:text-3xl font-bold">Tap to reveal the question</div>
@@ -464,6 +506,7 @@
                             revealed[i] ? "bg-emerald-50 text-emerald-950" : "bg-emerald-950/40 text-emerald-50"
                           }`}
                           aria-pressed={revealed[i]}
+                          disabled={isRevealingAll}
                         >
                           <div className="flex items-center justify-between gap-3">
                             <div className="font-semibold text-lg break-words">{revealed[i] ? ans.text : `#${i + 1}`}</div>
@@ -478,8 +521,20 @@
                 )}
 
                 <div className="mt-6 flex flex-wrap items-center gap-2">
-                  <button onClick={() => toggleRevealAll(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reveal all</button>
-                  <button onClick={() => toggleRevealAll(false)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Hide all</button>
+                  <button
+                    onClick={() => toggleRevealAll(true)}
+                    disabled={isRevealingAll}
+                    className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Reveal all
+                  </button>
+                  <button
+                    onClick={() => toggleRevealAll(false)}
+                    disabled={isRevealingAll}
+                    className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Hide all
+                  </button>
                   <span className="mx-1 opacity-60">|</span>
                   <button onClick={() => awardRound("A")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamAName}</button>
                   <button onClick={() => awardRound("B")} className="px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500">Award to {teamBName}</button>
