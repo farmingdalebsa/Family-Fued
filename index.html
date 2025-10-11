@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BSA Family Feud Night</title>
-    <!-- Tailwind via CDN (good for quick hosting on GitHub Pages) -->
+    <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- React 18 UMD + Babel (so we can write JSX in-browser) -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -14,185 +14,184 @@
   <body class="min-h-screen bg-emerald-950">
     <div id="root"></div>
 
-    <!-- Your custom reveal sound -->
+    <!-- Custom reveal sound: place your file at sounds/reveal.mp3 -->
     <audio id="reveal-audio" src="sounds/reveal.mp3" preload="auto"></audio>
 
     <script type="text/babel" data-presets="react">
       const { useMemo, useState, useEffect, useRef } = React;
 
+      // First 21 questions are the updated set; last 4 kept from before.
       const SAMPLE_QUESTIONS = [
-        { prompt: "Name a popular Bangladeshi street food", answers: [
-          { text: "Fuchka/Pani Puri", points: 30 },
-          { text: "Chotpoti", points: 18 },
-          { text: "Jhalmuri", points: 15 },
-          { text: "Singara/Samosa", points: 12 },
-          { text: "Roll/Paratha roll", points: 10 },
-          { text: "Pitha (seasonal)", points: 8 },
-          { text: "Haleem", points: 7 },
+        // 1
+        { prompt: "Name a popular Bangladeshi food", answers: [
+          { text: "Biryani", points: 35 },
+          { text: "Ilish Curry", points: 25 },
+          { text: "Panta Ilish", points: 15 },
+          { text: "Fuchka", points: 15 },
+          { text: "Beef Curry", points: 10 },
         ]},
-        { prompt: "Name a city you’d recommend visiting in Bangladesh", answers: [
-          { text: "Cox’s Bazar", points: 24 },
-          { text: "Dhaka", points: 22 },
-          { text: "Sylhet", points: 18 },
-          { text: "Chattogram", points: 14 },
-          { text: "Sundarbans (Khulna)", points: 10 },
-          { text: "Srimangal", points: 7 },
-          { text: "Rangamati/Bandarban", points: 5 },
+        // 2
+        { prompt: "Name a Bangladeshi tourist spot", answers: [
+          { text: "Cox’s Bazar", points: 40 },
+          { text: "Sundarbans", points: 30 },
+          { text: "Sylhet Tea Gardens", points: 15 },
+          { text: "Sri Mangal", points: 10 },
+          { text: "Lalbagh Fort", points: 5 },
         ]},
-        { prompt: "Something students bring to a BSA meeting", answers: [
-          { text: "Snacks/food to share", points: 22 },
-          { text: "Water bottle", points: 18 },
-          { text: "Laptop/tablet", points: 16 },
-          { text: "Phone charger", points: 15 },
-          { text: "ID card", points: 12 },
-          { text: "Pen & notebook", points: 10 },
-          { text: "Cash/Venmo for dues", points: 7 },
+        // 3
+        { prompt: "Name a Bangladeshi festival", answers: [
+          { text: "Pohela Boishakh", points: 35 },
+          { text: "Eid-ul-Fitr", points: 30 },
+          { text: "Eid-ul-Adha", points: 20 },
+          { text: "Durga Puja", points: 10 },
+          { text: "Independence Day", points: 5 },
         ]},
-        { prompt: "A popular activity at BSA cultural nights", answers: [
-          { text: "Cultural dance", points: 22 },
-          { text: "Henna/Mehndi", points: 18 },
-          { text: "Live music/singing", points: 16 },
-          { text: "Trivia/quiz games", points: 14 },
-          { text: "Food tasting", points: 14 },
-          { text: "Photo booth", points: 8 },
-          { text: "Party games", points: 8 },
+        // 4
+        { prompt: "Name a Bangladeshi sweet", answers: [
+          { text: "Roshogolla", points: 30 },
+          { text: "Mishti Doi", points: 25 },
+          { text: "Chomchom", points: 20 },
+          { text: "Sandesh", points: 15 },
+          { text: "Kalo Jamun", points: 10 },
         ]},
+        // 5
+        { prompt: "Name a Bangladeshi river", answers: [
+          { text: "Padma", points: 30 },
+          { text: "Jamuna", points: 25 },
+          { text: "Meghna", points: 20 },
+          { text: "Buriganga", points: 15 },
+          { text: "Teesta", points: 10 },
+        ]},
+        // 6
+        { prompt: "Name something you see in Dhaka traffic", answers: [
+          { text: "Rickshaw", points: 40 },
+          { text: "Traffic Jam", points: 30 },
+          { text: "CNG Auto", points: 15 },
+          { text: "Street Vendors", points: 10 },
+          { text: "Buses", points: 5 },
+        ]},
+        // 7
+        { prompt: "Name something bought for Eid", answers: [
+          { text: "New Clothes", points: 40 },
+          { text: "Sweets", points: 25 },
+          { text: "Shoes", points: 15 },
+          { text: "Perfume/Attar", points: 10 },
+          { text: "Cow/Goat", points: 10 },
+        ]},
+        // 8
+        { prompt: "Name a Bangladeshi mode of village transport", answers: [
+          { text: "Rickshaw", points: 35 },
+          { text: "Bicycle", points: 20 },
+          { text: "Motorbike", points: 20 },
+          { text: "Paddle Van", points: 15 },
+          { text: "Boat", points: 10 },
+        ]},
+        // 9
+        { prompt: "Name something Bangladeshi families cook for special occasions", answers: [
+          { text: "Biryani", points: 35 },
+          { text: "Korma", points: 25 },
+          { text: "Polao", points: 20 },
+          { text: "Haleem", points: 10 },
+          { text: "Shemai", points: 10 },
+        ]},
+        // 10
+        { prompt: "Name a South Asian street food", answers: [
+          { text: "Gol Gappa/Pani Puri/Fuchka", points: 40 },
+          { text: "Chaat", points: 25 },
+          { text: "Samosa", points: 20 },
+          { text: "Vada Pav", points: 10 },
+          { text: "Jhalmuri", points: 5 },
+        ]},
+        // 11
+        { prompt: "Name a South Asian festival", answers: [
+          { text: "Eid", points: 35 },
+          { text: "Diwali", points: 30 },
+          { text: "Holi", points: 15 },
+          { text: "Durga Puja", points: 10 },
+          { text: "Vaisakhi", points: 10 },
+        ]},
+        // 12
+        { prompt: "Name a South Asian dessert", answers: [
+          { text: "Gulab Jamun", points: 30 },
+          { text: "Jalebi", points: 25 },
+          { text: "Kheer/Payesh", points: 20 },
+          { text: "Roshogolla", points: 15 },
+          { text: "Kulfi", points: 10 },
+        ]},
+        // 13
+        { prompt: "Name a South Asian movie star", answers: [
+          { text: "Shah Rukh Khan", points: 30 },
+          { text: "Salman Khan", points: 25 },
+          { text: "Aamir Khan", points: 20 },
+          { text: "Hania Amir", points: 15 },
+          { text: "Mahira Khan", points: 10 },
+        ]},
+        // 14
+        { prompt: "Name a South Asian cricket star", answers: [
+          { text: "Virat Kohli", points: 30 },
+          { text: "Shakib Al Hasan", points: 25 },
+          { text: "Babar Azam", points: 20 },
+          { text: "Dhoni", points: 15 },
+          { text: "Shahid Afridi", points: 10 },
+        ]},
+        // 15
+        { prompt: "Hardest class students complain about in Farmingdale", answers: [
+          { text: "Calc 1 and Calc 2", points: 30 },
+          { text: "Physics 1 and Physics 2", points: 25 },
+          { text: "Chemistry", points: 20 },
+          { text: "EET 105", points: 15 },
+          { text: "Micro and Macro Economics", points: 10 },
+        ]},
+        // 16
+        { prompt: "Where students go after class", answers: [
+          { text: "Quintyne Hall", points: 30 },
+          { text: "Cafeteria", points: 25 },
+          { text: "Dorm", points: 20 },
+          { text: "Shopping Area", points: 10 },
+          { text: "Library", points: 10 },
+        ]},
+        // 17
+        { prompt: "Name a popular MSA, PSA, SASA, ASA, BSA event", answers: [
+          { text: "Formals Week", points: 30 },
+          { text: "Pohela Boishakh", points: 20 },
+          { text: "Eid Banquet", points: 25 },
+          { text: "Game Night", points: 15 },
+          { text: "Qawali night", points: 10 },
+        ]},
+        // 18
         { prompt: "Exam week essential for college students", answers: [
           { text: "Tea/Coffee", points: 28 },
           { text: "Instant noodles", points: 18 },
           { text: "Earbuds", points: 14 },
-          { text: "Highlighters", points: 12 },
-          { text: "Flashcards/Anki", points: 10 },
-          { text: "Energy drink", points: 10 },
+          { text: "Energy drink", points: 14 },
+          { text: "Highlighters", points: 10 },
           { text: "Hoodie/blanket", points: 8 },
         ]},
-        { prompt: "Famous Bangladeshi dishes", answers: [
-          { text: "Kacchi biryani", points: 26 },
-          { text: "Ilish (Hilsa)", points: 20 },
-          { text: "Bhuna khichuri", points: 16 },
-          { text: "Panta ilish", points: 12 },
-          { text: "Tehari", points: 14 },
-          { text: "Fuchka", points: 12 },
+        // 19
+        { prompt: "Name something students stress about", answers: [
+          { text: "Exams", points: 35 },
+          { text: "Assignments", points: 25 },
+          { text: "Tuition Fees", points: 20 },
+          { text: "Job/Internship", points: 10 },
         ]},
-        { prompt: "Something you often hear at a deshi wedding", answers: [
-          { text: "Dhol/drums", points: 22 },
-          { text: "Photo time!", points: 18 },
-          { text: "Ektu darao / Wait a second", points: 16 },
-          { text: "Compliments on outfits", points: 14 },
-          { text: "Ululation/cheers", points: 12 },
-          { text: "Kids running around", points: 10 },
-          { text: "Where’s the biryani?", points: 8 },
+        // 20
+        { prompt: "What students do right before exams", answers: [
+          { text: "Cram All Night", points: 35 },
+          { text: "Drink Coffee", points: 25 },
+          { text: "Group Study", points: 20 },
+          { text: "Panic", points: 10 },
+          { text: "Pray", points: 10 },
         ]},
-        { prompt: "Most popular sports among Bangladeshi students", answers: [
-          { text: "Cricket", points: 40 },
-          { text: "Football/Soccer", points: 25 },
-          { text: "Badminton", points: 15 },
-          { text: "Table tennis", points: 10 },
-          { text: "Basketball", points: 6 },
-          { text: "Volleyball", points: 4 },
-        ]},
-        { prompt: "Why a club meeting might start late", answers: [
-          { text: "Free food line", points: 24 },
-          { text: "Class ran over", points: 22 },
-          { text: "Finding the room", points: 18 },
-          { text: "Tech/setup issues", points: 14 },
-          { text: "Weather/traffic", points: 12 },
-          { text: "Waiting for friends", points: 10 },
-        ]},
-        { prompt: "Festival BSA might celebrate on campus", answers: [
-          { text: "Pohela Boishakh", points: 34 },
-          { text: "Eid", points: 20 },
-          { text: "Victory Day", points: 16 },
-          { text: "Language Movement Day", points: 14 },
-          { text: "Nabanno", points: 10 },
-          { text: "Independence Day", points: 6 },
+        // 21
+        { prompt: "Name a South Asian clothing item", answers: [
+          { text: "Saree", points: 35 },
+          { text: "Kurta", points: 25 },
+          { text: "Salwar Kameez", points: 20 },
+          { text: "Sherwani", points: 10 },
+          { text: "Dhoti/Lungi", points: 10 },
         ]},
 
-        /* ---- Added 15 more questions to reach 25 total ---- */
-        { prompt: "Favorite Bangladeshi dessert", answers: [
-          { text: "Roshogolla", points: 24 },
-          { text: "Mishti Doi", points: 20 },
-          { text: "Jilapi", points: 18 },
-          { text: "Chamcham", points: 14 },
-          { text: "Kheer", points: 12 },
-          { text: "Patishapta", points: 10 },
-        ]},
-        { prompt: "Common reason students join BSA", answers: [
-          { text: "Meet new people", points: 26 },
-          { text: "Cultural pride", points: 22 },
-          { text: "Free food/events", points: 20 },
-          { text: "Networking", points: 14 },
-          { text: "Leadership opportunities", points: 10 },
-          { text: "Community service", points: 8 },
-        ]},
-        { prompt: "Something found at a BSA table fair booth", answers: [
-          { text: "Flyers/posters", points: 22 },
-          { text: "Snacks", points: 20 },
-          { text: "Henna station", points: 18 },
-          { text: "Flag decorations", points: 14 },
-          { text: "Sign-up sheet", points: 12 },
-          { text: "Music playing", points: 10 },
-        ]},
-        { prompt: "A reason a BSA member might miss a meeting", answers: [
-          { text: "Exam/homework", points: 28 },
-          { text: "Work shift", points: 22 },
-          { text: "Family event", points: 18 },
-          { text: "Sick", points: 14 },
-          { text: "Club overlap", points: 10 },
-          { text: "Forgot", points: 8 },
-        ]},
-        { prompt: "Popular Bangladeshi singer", answers: [
-          { text: "Habib Wahid", points: 26 },
-          { text: "Tahsan", points: 22 },
-          { text: "Arnob", points: 18 },
-          { text: "James", points: 14 },
-          { text: "Asif Akbar", points: 10 },
-          { text: "Momtaz Begum", points: 8 },
-        ]},
-        { prompt: "Bangladeshi holiday food", answers: [
-          { text: "Shemai", points: 26 },
-          { text: "Polao & roast", points: 22 },
-          { text: "Biryani", points: 18 },
-          { text: "Payesh", points: 14 },
-          { text: "Korma", points: 10 },
-        ]},
-        { prompt: "Something you wear on Pohela Boishakh", answers: [
-          { text: "Red & white sari", points: 28 },
-          { text: "Panjabi", points: 22 },
-          { text: "Flower crown", points: 18 },
-          { text: "Bindi/ornaments", points: 14 },
-          { text: "Traditional jewelry", points: 10 },
-        ]},
-        { prompt: "Something you’ll find at a BSA potluck", answers: [
-          { text: "Biryani", points: 28 },
-          { text: "Samosa", points: 20 },
-          { text: "Chotpoti", points: 18 },
-          { text: "Drinks", points: 14 },
-          { text: "Dessert", points: 10 },
-          { text: "Plates & cups", points: 8 },
-        ]},
-        { prompt: "Something Bangladeshi parents say often", answers: [
-          { text: "Kothay jachho?", points: 28 },
-          { text: "Porashona koro!", points: 22 },
-          { text: "Khawa holo?", points: 20 },
-          { text: "Phone ta keno use korchho eto?", points: 14 },
-          { text: "Beshy din raat jago na", points: 10 },
-        ]},
-        { prompt: "Common item in a Bangladeshi kitchen", answers: [
-          { text: "Pressure cooker", points: 26 },
-          { text: "Spice box (masala)", points: 22 },
-          { text: "Rice cooker", points: 18 },
-          { text: "Boti/knife", points: 14 },
-          { text: "Tawa/pan", points: 10 },
-          { text: "Ladle/khunti", points: 8 },
-        ]},
-        { prompt: "Favorite type of BSA event", answers: [
-          { text: "Cultural night", points: 26 },
-          { text: "Game night", points: 22 },
-          { text: "Picnic", points: 18 },
-          { text: "Fundraiser", points: 14 },
-          { text: "General meeting", points: 10 },
-        ]},
+        /* 22–25: kept as before */
         { prompt: "Something people do at Eid prayer", answers: [
           { text: "Say Eid Mubarak", points: 26 },
           { text: "Shake hands/hug", points: 22 },
@@ -233,9 +232,9 @@
         const [roundIndex, setRoundIndex] = useState(0);
 
         // Per-round reveal & scoring
-        const [revealed, setRevealed] = useState([]);  // visible state
-        const [scored, setScored]   = useState([]);     // which answers already added points
-        const [mainScore, setMainScore] = useState(0);  // MAIN SCOREBOARD for current round
+        const [revealed, setRevealed] = useState([]);   // which tiles are visible
+        const [scored, setScored] = useState([]);       // which tiles already added to mainScore
+        const [mainScore, setMainScore] = useState(0);  // MAIN SCOREBOARD (current round)
 
         const [strikes, setStrikes] = useState(0);
         const [multiplier, setMultiplier] = useState(1);
@@ -244,11 +243,11 @@
         const [questionHidden, setQuestionHidden] = useState(true);
         const [isRevealingAll, setIsRevealingAll] = useState(false);
 
+        // Reveal sound
         const revealAudioRef = useRef(null);
         useEffect(() => {
           revealAudioRef.current = document.getElementById("reveal-audio");
         }, []);
-
         function playReveal(delayMs = 0, volume = 1) {
           const el = revealAudioRef.current;
           if (!el) return;
@@ -256,14 +255,11 @@
           node.volume = volume;
           setTimeout(() => { node.play().catch(() => {}); }, delayMs);
         }
-
-        function sleep(ms) {
-          return new Promise((resolve) => setTimeout(resolve, ms));
-        }
+        function sleep(ms) { return new Promise(res => setTimeout(res, ms)); }
 
         const current = questions[roundIndex];
 
-        // Initialize a new round's state
+        // Initialize new round
         useEffect(() => {
           if (!current) return;
           const n = current.answers.length;
@@ -281,19 +277,21 @@
           return current.answers.reduce((s, a) => s + a.points, 0);
         }, [current]);
 
-        // Single-tile reveal: add to main scoreboard if not already scored
+        // Single tile reveal: adds points to Main Scoreboard (once per tile), honors multiplier
         function handleReveal(i) {
           if (questionHidden || isRevealingAll) return;
           if (!revealed[i]) {
-            const next = [...revealed];
-            next[i] = true;
-            setRevealed(next);
+            setRevealed(prev => {
+              const next = [...prev];
+              next[i] = true;
+              return next;
+            });
             setScored(prev => {
               if (!prev[i]) {
                 setMainScore(ms => ms + current.answers[i].points * multiplier);
-                const np = [...prev];
-                np[i] = true;
-                return np;
+                const next = [...prev];
+                next[i] = true;
+                return next;
               }
               return prev;
             });
@@ -301,22 +299,22 @@
           }
         }
 
-        // Reveal all sequentially: NO POINTS added, only show tiles + sound
+        // Reveal all sequentially: NO scoring, just reveal + sound
         async function revealAllSequential() {
           if (!current || isRevealingAll) return;
           setIsRevealingAll(true);
           setQuestionHidden(false);
 
-          const toReveal = current.answers.map((_, i) => i).filter((i) => !revealed[i]);
+          const toReveal = current.answers.map((_, i) => i).filter(i => !revealed[i]);
           for (const idx of toReveal) {
             setRevealed(prev => {
               const next = [...prev];
               next[idx] = true;
               return next;
             });
-            // No scoring here
+            // No scored/mainScore changes here
             playReveal(0, 0.95);
-            await sleep(250); // change to 3000 for 3s between answers
+            await sleep(250); // change to 3000 for a 3s delay
           }
           setIsRevealingAll(false);
         }
@@ -327,26 +325,26 @@
             revealAllSequential();
             return;
           }
-          // Hide all (do NOT reset "scored", so points can't be double-added)
+          // Hide all (do not reset "scored", so points aren't double-counted if re-revealed)
           setRevealed(new Array(current.answers.length).fill(false));
         }
 
         function nextMultiplier() {
-          setMultiplier((m) => (m === 1 ? 2 : m === 2 ? 3 : 1));
+          setMultiplier(m => (m === 1 ? 2 : m === 2 ? 3 : 1));
         }
 
         function addStrike() {
-          setStrikes((s) => Math.min(3, s + 1));
+          setStrikes(s => Math.min(3, s + 1));
         }
 
         function clearStrikes() {
           setStrikes(0);
         }
 
-        // Award: transfer main scoreboard to a team, then clear main scoreboard
+        // Award: transfer Main Scoreboard to a team, clear mainScore
         function awardRound(to) {
-          if (to === "A") setScoreA((s) => s + mainScore);
-          if (to === "B") setScoreB((s) => s + mainScore);
+          if (to === "A") setScoreA(s => s + mainScore);
+          if (to === "B") setScoreB(s => s + mainScore);
           setMainScore(0);
         }
 
@@ -365,8 +363,8 @@
           setStrikes(0);
           setMultiplier(1);
           setMainScore(0);
-          setRevealed((prev) => prev.map(() => false));
-          setScored((prev) => prev.map(() => false));
+          setRevealed(prev => prev.map(() => false));
+          setScored(prev => prev.map(() => false));
           setQuestionHidden(true);
           setIsRevealingAll(false);
           if (hard) setRoundIndex(0);
@@ -378,11 +376,11 @@
             if (!Array.isArray(parsed)) throw new Error("Root must be an array");
             parsed.forEach((q, idx) => {
               if (!q.prompt || !Array.isArray(q.answers)) {
-                throw new Error(`Item ${idx} must have prompt and answers[]`);
+                throw new Error("Item " + idx + " must have prompt and answers[]");
               }
               q.answers.forEach((a, j) => {
                 if (typeof a.text !== "string" || typeof a.points !== "number") {
-                  throw new Error(`Answer ${j} in question ${idx} must have text:string and points:number`);
+                  throw new Error("Answer " + j + " in question " + idx + " must have text:string and points:number");
                 }
               });
             });
@@ -421,7 +419,7 @@
                   <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">BSA Family Feud Night</h1>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setEditingQuestions((v) => !v)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">{editingQuestions ? "Close editor" : "Questions editor"}</button>
+                  <button onClick={() => setEditingQuestions(v => !v)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">{editingQuestions ? "Close editor" : "Questions editor"}</button>
                   <button onClick={() => resetGame(true)} className="px-3 py-2 rounded-xl bg-emerald-800/60 hover:bg-emerald-800 border border-emerald-700">Reset game</button>
                 </div>
               </div>
@@ -429,7 +427,7 @@
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
                 <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
                   <label className="text-xs uppercase tracking-wider opacity-70">Team A</label>
-                  <input value={teamAName} onChange={(e) => setTeamAName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
+                  <input value={teamAName} onChange={e => setTeamAName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
                   <div className="mt-3 text-4xl font-bold tabular-nums">{scoreA}</div>
                 </div>
 
@@ -459,7 +457,7 @@
 
                 <div className="rounded-2xl bg-emerald-900/70 p-4 border border-emerald-800 shadow-sm">
                   <label className="text-xs uppercase tracking-wider opacity-70">Team B</label>
-                  <input value={teamBName} onChange={(e) => setTeamBName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
+                  <input value={teamBName} onChange={e => setTeamBName(e.target.value)} className="w-full mt-1 bg-transparent outline-none border-b border-emerald-700 pb-1" />
                   <div className="mt-3 text-4xl font-bold tabular-nums">{scoreB}</div>
                 </div>
               </div>
@@ -468,7 +466,10 @@
                 <div className="text-sm uppercase tracking-widest opacity-70">Question</div>
 
                 {questionHidden ? (
-                  <button onClick={() => setQuestionHidden(false)} className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition">
+                  <button
+                    onClick={() => setQuestionHidden(false)}
+                    className="mt-3 w-full rounded-2xl border-2 border-dashed border-emerald-700/80 bg-emerald-900/40 p-10 text-center hover:bg-emerald-900/60 transition"
+                  >
                     <div className="flex flex-col items-center gap-3">
                       <div className="w-16 h-16 rounded-full bg-red-600 shadow" />
                       <div className="text-2xl md:text-3xl font-bold">Tap to reveal the question</div>
@@ -542,7 +543,7 @@
                     </div>
                   </div>
                   <p className="text-sm opacity-75 mb-3">Paste or edit an array of objects with <code>prompt</code> and <code>answers[]</code> (each answer has <code>text</code> and <code>points</code> numbers).</p>
-                  <textarea value={jsonDraft} onChange={(e) => setJsonDraft(e.target.value)} spellCheck={false} className="w-full h-72 md:h-96 p-3 rounded-xl bg-emerald-950/80 border border-emerald-800 font-mono text-sm" />
+                  <textarea value={jsonDraft} onChange={e => setJsonDraft(e.target.value)} spellCheck={false} className="w-full h-72 md:h-96 p-3 rounded-xl bg-emerald-950/80 border border-emerald-800 font-mono text-sm" />
                 </div>
               )}
 
