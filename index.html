@@ -14,184 +14,186 @@
   <body class="min-h-screen bg-emerald-950">
     <div id="root"></div>
 
-    <!-- Custom reveal sound: place your file at sounds/reveal.mp3 -->
+    <!-- Custom reveal sound: put your file at sounds/reveal.mp3 -->
     <audio id="reveal-audio" src="sounds/reveal.mp3" preload="auto"></audio>
 
     <script type="text/babel" data-presets="react">
       const { useMemo, useState, useEffect, useRef } = React;
 
-      // First 21 questions are the updated set; last 4 kept from before.
+      // First 21 questions from your file; last 4 kept from before.
       const SAMPLE_QUESTIONS = [
         // 1
-        { prompt: "Name a popular Bangladeshi food", answers: [
-          { text: "Biryani", points: 35 },
-          { text: "Ilish Curry", points: 25 },
-          { text: "Panta Ilish", points: 15 },
-          { text: "Fuchka", points: 15 },
-          { text: "Beef Curry", points: 10 },
+        { prompt: "Tell us a reason students are late to class", answers: [
+          { text: "Overslept", points: 35 },
+          { text: "Missed the bus / no ride", points: 25 },
+          { text: "Traffic / parking", points: 20 },
+          { text: "Getting food or coffee", points: 10 },
+          { text: "Talking with friends", points: 5 },
+          { text: "Forgot class time", points: 5 },
         ]},
         // 2
-        { prompt: "Name a Bangladeshi tourist spot", answers: [
-          { text: "Cox’s Bazar", points: 40 },
-          { text: "Sundarbans", points: 30 },
-          { text: "Sylhet Tea Gardens", points: 15 },
-          { text: "Sri Mangal", points: 10 },
-          { text: "Lalbagh Fort", points: 5 },
+        { prompt: "Name something you’ll find in a student’s backpack", answers: [
+          { text: "Laptop", points: 30 },
+          { text: "Notebook", points: 25 },
+          { text: "Charger", points: 15 },
+          { text: "Snacks", points: 10 },
+          { text: "Pens/Pencils", points: 10 },
+          { text: "Water Bottle", points: 10 },
         ]},
         // 3
-        { prompt: "Name a Bangladeshi festival", answers: [
-          { text: "Pohela Boishakh", points: 35 },
-          { text: "Eid-ul-Fitr", points: 30 },
-          { text: "Eid-ul-Adha", points: 20 },
-          { text: "Durga Puja", points: 10 },
-          { text: "Independence Day", points: 5 },
+        { prompt: "If you could represent yourself as a South Asian spice, what spice are you?", answers: [
+          { text: "Chili", points: 39 },
+          { text: "Garam Masala", points: 24 },
+          { text: "Cinnamon", points: 17 },
+          { text: "Black pepper", points: 13 },
+          { text: "Cardamom", points: 7 },
         ]},
         // 4
-        { prompt: "Name a Bangladeshi sweet", answers: [
-          { text: "Roshogolla", points: 30 },
-          { text: "Mishti Doi", points: 25 },
-          { text: "Chomchom", points: 20 },
-          { text: "Sandesh", points: 15 },
-          { text: "Kalo Jamun", points: 10 },
+        { prompt: "Place where South Asian students hang out on campus", answers: [
+          { text: "Quintyne Hall", points: 38 },
+          { text: "Library", points: 23 },
+          { text: "FSC Circle", points: 19 },
+          { text: "Cafeteria", points: 14 },
+          { text: "Parking lot", points: 6 },
         ]},
-        // 5
-        { prompt: "Name a Bangladeshi river", answers: [
-          { text: "Padma", points: 30 },
-          { text: "Jamuna", points: 25 },
-          { text: "Meghna", points: 20 },
-          { text: "Buriganga", points: 15 },
-          { text: "Teesta", points: 10 },
+        // 5 (points not in doc — using standard descending so the game runs)
+        { prompt: "Name one worst place to be on first day of class", answers: [
+          { text: "Jail", points: 30 },
+          { text: "Still on vacation", points: 25 },
+          { text: "Wrong classroom", points: 20 },
+          { text: "Still in bed", points: 15 },
+          { text: "Getting pulled over", points: 10 },
         ]},
         // 6
-        { prompt: "Name something you see in Dhaka traffic", answers: [
-          { text: "Rickshaw", points: 40 },
-          { text: "Traffic Jam", points: 30 },
-          { text: "CNG Auto", points: 15 },
-          { text: "Street Vendors", points: 10 },
-          { text: "Buses", points: 5 },
+        { prompt: "Name a popular MSA, PSA, SASA, ASA, BSA event", answers: [
+          { text: "Formal Night", points: 38 },
+          { text: "Eid Banquet", points: 25 },
+          { text: "Game Night", points: 19 },
+          { text: "Iftar Banquet", points: 10 },
+          { text: "Family Feud / Trivia", points: 8 },
         ]},
         // 7
-        { prompt: "Name something bought for Eid", answers: [
-          { text: "New Clothes", points: 40 },
-          { text: "Sweets", points: 25 },
-          { text: "Shoes", points: 15 },
-          { text: "Perfume/Attar", points: 10 },
-          { text: "Cow/Goat", points: 10 },
+        { prompt: "What animal noise can you make?", answers: [
+          { text: "Dog - Woof Woof", points: 37 },
+          { text: "Cat - Meow", points: 27 },
+          { text: "Cow - Hambaaa", points: 19 },
+          { text: "Lion - Roar", points: 10 },
+          { text: "Chicken - Kuk-ru-kuuuuu", points: 7 },
         ]},
         // 8
-        { prompt: "Name a Bangladeshi mode of village transport", answers: [
-          { text: "Rickshaw", points: 35 },
-          { text: "Bicycle", points: 20 },
-          { text: "Motorbike", points: 20 },
-          { text: "Paddle Van", points: 15 },
-          { text: "Boat", points: 10 },
+        { prompt: "Name a place where Farmingdale students go for dates", answers: [
+          { text: "Qawah House / Filli", points: 39 },
+          { text: "Restaurants", points: 28 },
+          { text: "Library", points: 21 },
+          { text: "Campus Garden", points: 8 },
+          { text: "Shopping Mall", points: 4 },
         ]},
         // 9
-        { prompt: "Name something Bangladeshi families cook for special occasions", answers: [
-          { text: "Biryani", points: 35 },
-          { text: "Korma", points: 25 },
-          { text: "Polao", points: 20 },
-          { text: "Haleem", points: 10 },
-          { text: "Shemai", points: 10 },
+        { prompt: "Name a South Asian street food", answers: [
+          { text: "Fuchka / Pani Puri", points: 48 },
+          { text: "Chaat", points: 28 },
+          { text: "Samosa", points: 15 },
+          { text: "Pakora", points: 5 },
+          { text: "Roll", points: 4 },
         ]},
         // 10
-        { prompt: "Name a South Asian street food", answers: [
-          { text: "Gol Gappa/Pani Puri/Fuchka", points: 40 },
-          { text: "Chaat", points: 25 },
-          { text: "Samosa", points: 20 },
-          { text: "Vada Pav", points: 10 },
-          { text: "Jhalmuri", points: 5 },
+        { prompt: "What do students do before exam", answers: [
+          { text: "Cram all night", points: 35 },
+          { text: "Drink coffee", points: 25 },
+          { text: "Pray", points: 15 },
+          { text: "Panic", points: 15 },
+          { text: "Group study", points: 10 },
         ]},
         // 11
-        { prompt: "Name a South Asian festival", answers: [
-          { text: "Eid", points: 35 },
-          { text: "Diwali", points: 30 },
-          { text: "Holi", points: 15 },
-          { text: "Durga Puja", points: 10 },
-          { text: "Vaisakhi", points: 10 },
+        { prompt: "You’re having a friends sleepover; not enough space — where do you suggest your fat friend sleep?", answers: [
+          { text: "Bathroom", points: 30 },
+          { text: "Kitchen", points: 25 },
+          { text: "Living room", points: 15 },
+          { text: "Garage", points: 10 },
+          { text: "Closet", points: 10 },
         ]},
         // 12
-        { prompt: "Name a South Asian dessert", answers: [
-          { text: "Gulab Jamun", points: 30 },
-          { text: "Jalebi", points: 25 },
-          { text: "Kheer/Payesh", points: 20 },
-          { text: "Roshogolla", points: 15 },
-          { text: "Kulfi", points: 10 },
+        { prompt: "Name a reason why students get expelled from college", answers: [
+          { text: "Bad performance", points: 33 },
+          { text: "Drugs/Drinking", points: 26 },
+          { text: "Plagiarism", points: 21 },
+          { text: "Violence", points: 12 },
+          { text: "Harassment", points: 8 },
         ]},
         // 13
-        { prompt: "Name a South Asian movie star", answers: [
-          { text: "Shah Rukh Khan", points: 30 },
-          { text: "Salman Khan", points: 25 },
-          { text: "Aamir Khan", points: 20 },
-          { text: "Hania Amir", points: 15 },
-          { text: "Mahira Khan", points: 10 },
+        { prompt: "Name a reason why students join clubs", answers: [
+          { text: "Free food", points: 33 },
+          { text: "Fun events", points: 26 },
+          { text: "Make new friends", points: 21 },
+          { text: "Watch drama/fights", points: 12 },
+          { text: "Leadership opportunities", points: 8 },
         ]},
         // 14
-        { prompt: "Name a South Asian cricket star", answers: [
-          { text: "Virat Kohli", points: 30 },
-          { text: "Shakib Al Hasan", points: 25 },
-          { text: "Babar Azam", points: 20 },
-          { text: "Dhoni", points: 15 },
-          { text: "Shahid Afridi", points: 10 },
+        { prompt: "What’s the weirdest thing someone might bring to class", answers: [
+          { text: "Pajamas and a blanket", points: 28 },
+          { text: "Your pet in backpack", points: 24 },
+          { text: "Their mom", points: 19 },
+          { text: "A stinky meal from home", points: 16 },
+          { text: "Toothbrush", points: 13 },
         ]},
         // 15
-        { prompt: "Hardest class students complain about in Farmingdale", answers: [
-          { text: "Calc 1 and Calc 2", points: 30 },
-          { text: "Physics 1 and Physics 2", points: 25 },
-          { text: "Chemistry", points: 20 },
-          { text: "EET 105", points: 15 },
-          { text: "Micro and Macro Economics", points: 10 },
+        { prompt: "Name something you do during summer break", answers: [
+          { text: "Travel", points: 35 },
+          { text: "Go to the beach", points: 25 },
+          { text: "Sleep", points: 18 },
+          { text: "Work / Internship", points: 14 },
+          { text: "Hang out with friends", points: 8 },
         ]},
         // 16
-        { prompt: "Where students go after class", answers: [
-          { text: "Quintyne Hall", points: 30 },
-          { text: "Cafeteria", points: 25 },
-          { text: "Dorm", points: 20 },
-          { text: "Shopping Area", points: 10 },
-          { text: "Library", points: 10 },
+        { prompt: "What’s something students do instead of studying?", answers: [
+          { text: "Binge-watch Netflix", points: 33 },
+          { text: "Scroll TikTok for 3 hours", points: 26 },
+          { text: "Nap everywhere", points: 21 },
+          { text: "Playing video games", points: 12 },
+          { text: "Daydreaming", points: 8 },
         ]},
         // 17
-        { prompt: "Name a popular MSA, PSA, SASA, ASA, BSA event", answers: [
-          { text: "Formals Week", points: 30 },
-          { text: "Pohela Boishakh", points: 20 },
-          { text: "Eid Banquet", points: 25 },
-          { text: "Game Night", points: 15 },
-          { text: "Qawali night", points: 10 },
+        { prompt: "Name a lie students tell themselves every semester", answers: [
+          { text: "I’m going to class every day", points: 35 },
+          { text: "I’m only using my phone for notes", points: 25 },
+          { text: "I won’t pull an all-nighter again", points: 19 },
+          { text: "I don’t need coffee to survive", points: 12 },
+          { text: "I will start study from tomorrow", points: 9 },
         ]},
         // 18
-        { prompt: "Exam week essential for college students", answers: [
-          { text: "Tea/Coffee", points: 28 },
-          { text: "Instant noodles", points: 18 },
-          { text: "Earbuds", points: 14 },
-          { text: "Energy drink", points: 14 },
-          { text: "Highlighters", points: 10 },
-          { text: "Hoodie/blanket", points: 8 },
+        { prompt: "Name an expectation from your family after graduating", answers: [
+          { text: "Become a doctor/engineer/lawyer", points: 33 },
+          { text: "Get married ASAP", points: 27 },
+          { text: "Start making big money", points: 18 },
+          { text: "Buy parents a house or car", points: 15 },
+          { text: "Support younger siblings", points: 7 },
         ]},
         // 19
-        { prompt: "Name something students stress about", answers: [
-          { text: "Exams", points: 35 },
-          { text: "Assignments", points: 25 },
-          { text: "Tuition Fees", points: 20 },
-          { text: "Job/Internship", points: 10 },
+        { prompt: "Hardest class students complain about in Farmingdale", answers: [
+          { text: "Math", points: 33 },
+          { text: "Programming / Java", points: 26 },
+          { text: "Physics", points: 21 },
+          { text: "Statistics", points: 12 },
+          { text: "Public Speaking/Art/Language", points: 8 },
         ]},
         // 20
-        { prompt: "What students do right before exams", answers: [
-          { text: "Cram All Night", points: 35 },
-          { text: "Drink Coffee", points: 25 },
-          { text: "Group Study", points: 20 },
-          { text: "Panic", points: 10 },
-          { text: "Pray", points: 10 },
+        { prompt: "Give me bad word that describes Arefin", answers: [
+          { text: "Dumbass", points: 28 },
+          { text: "Mouthbambbler", points: 24 },
+          { text: "Bolod", points: 19 },
+          { text: "Delusional/crazy", points: 16 },
+          { text: "Annoying/Loud", points: 13 },
         ]},
         // 21
-        { prompt: "Name a South Asian clothing item", answers: [
-          { text: "Saree", points: 35 },
-          { text: "Kurta", points: 25 },
-          { text: "Salwar Kameez", points: 20 },
-          { text: "Sherwani", points: 10 },
-          { text: "Dhoti/Lungi", points: 10 },
+        { prompt: "Give me good word that describes Arefin", answers: [
+          { text: "Handsome", points: 37 },
+          { text: "Dashing", points: 27 },
+          { text: "Funny", points: 19 },
+          { text: "Caring", points: 10 },
+          { text: "Helpful", points: 7 },
         ]},
 
-        /* 22–25: kept as before */
+        /* 22–25 kept as before */
         { prompt: "Something people do at Eid prayer", answers: [
           { text: "Say Eid Mubarak", points: 26 },
           { text: "Shake hands/hug", points: 22 },
